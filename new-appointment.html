@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>New Appointment – Tipsy Nails</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink:      #C0395A;
+      --pink-dark: #9e2e49;
+      --pink-soft: #fdf0f3;
+      --pink-mid:  #e8c0cc;
+      --bg:        #f7f3f4;
+      --card:      #ffffff;
+      --text:      #1a1210;
+      --muted:     #9a7a85;
+      --green:     #22c55e;
+      --radius:    14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--pink);
+      padding: 16px 20px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+
+    .header__back {
+      color: rgba(255,255,255,.8);
+      font-size: .85rem; font-weight: 500;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    .header__back:hover { color: #fff; }
+
+    .header__title {
+      font-size: 1rem; font-weight: 700; color: #fff;
+    }
+
+    .header__save {
+      background: rgba(255,255,255,.2);
+      border: 1.5px solid rgba(255,255,255,.4);
+      color: #fff; font-weight: 700;
+      font-size: .82rem; font-family: 'DM Sans', sans-serif;
+      padding: 7px 16px; border-radius: 50px;
+      cursor: pointer; transition: all .2s;
+    }
+
+    .header__save:hover { background: rgba(255,255,255,.3); }
+    .header__save:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── CONTAINER ── */
+    .container { padding: 16px 16px 100px; max-width: 520px; margin: 0 auto; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 12px rgba(192,57,90,.06);
+    }
+
+    .card__label {
+      font-size: .68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--pink);
+      padding: 12px 16px 0;
+    }
+
+    /* ── FORM ROW ── */
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      border: none; outline: none;
+      font-size: 1rem; font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: transparent;
+      border-bottom: 1px solid #f0e8ea;
+    }
+
+    .form-input:last-child { border-bottom: none; }
+    .form-input::placeholder { color: var(--muted); }
+    .form-input:focus { background: var(--pink-soft); }
+
+    select.form-input {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a7a85' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    /* ── DATE TIME ROW ── */
+    .datetime-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .datetime-row .form-input:first-child {
+      border-right: 1px solid #f0e8ea;
+    }
+
+    /* ── QUICK DATE CHIPS ── */
+    .quick-dates {
+      display: flex; gap: 6px;
+      padding: 10px 16px 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #f0e8ea;
+    }
+
+    .qd-chip {
+      padding: 5px 12px;
+      border: 1.5px solid var(--pink-mid);
+      border-radius: 50px;
+      font-size: .75rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+      background: #fff; color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap;
+    }
+
+    .qd-chip:hover { border-color: var(--pink); color: var(--pink); }
+    .qd-chip.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+    /* ── QUICK TIME SLOTS ── */
+    .time-slots {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .time-slots::-webkit-scrollbar { display: none; }
+
+    .ts-btn {
+      padding: 8px 14px;
+      border: 1.5px solid var(--pink-mid);
+      border-radius: 8px;
+      font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+      background: #fff; color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      text-align: center;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ts-btn:hover { border-color: var(--pink); color: var(--pink); }
+    .ts-btn.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+    .ts-btn.unavail { background: #f5f5f5; color: #ccc; border-color: #eee; cursor: not-allowed; text-decoration: line-through; }
+
+    .slots-loading {
+      padding: 12px 16px;
+      font-size: .82rem; color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── STAFF GRID ── */
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 12px 16px;
+    }
+
+    .staff-btn {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      padding: 8px 4px;
+      border: 1.5px solid var(--pink-mid);
+      border-radius: 10px;
+      cursor: pointer; transition: all .15s;
+      background: #fff;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .staff-btn:hover { border-color: var(--pink); }
+    .staff-btn.active { border-color: var(--pink); background: var(--pink-soft); }
+
+    .staff-btn__av {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--pink-mid);
+      color: var(--pink); font-weight: 700; font-size: .85rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .staff-btn.active .staff-btn__av {
+      background: var(--pink); color: #fff;
+    }
+
+    .staff-btn__name {
+      font-size: .65rem; font-weight: 600;
+      color: var(--muted); text-align: center;
+    }
+
+    .staff-btn.active .staff-btn__name { color: var(--pink); }
+
+    /* ── SERVICE LIST ── */
+    .svc-list { padding: 8px 16px 12px; }
+
+    .svc-item {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border: 1.5px solid #f0e8ea;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      cursor: pointer; transition: all .15s;
+      background: #fff;
+    }
+
+    .svc-item:hover { border-color: var(--pink-mid); }
+    .svc-item.active { border-color: var(--pink); background: var(--pink-soft); }
+    .svc-item__name { font-size: .875rem; font-weight: 600; }
+    .svc-item__time { font-size: .72rem; color: var(--muted); margin-top: 1px; }
+    .svc-item__price { font-size: .875rem; font-weight: 700; color: var(--pink); }
+
+    .svc-check {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid var(--pink-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; margin-left: 8px;
+      transition: all .15s; flex-shrink: 0;
+    }
+
+    .svc-item.active .svc-check {
+      background: var(--pink); border-color: var(--pink); color: #fff;
+    }
+
+    /* CAT TABS */
+    .cat-tabs {
+      display: flex; gap: 6px; overflow-x: auto;
+      padding: 10px 16px 0; scrollbar-width: none;
+    }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+
+    .cat-tab {
+      padding: 5px 12px; border: 1.5px solid var(--pink-mid);
+      border-radius: 50px; font-size: .72rem; font-weight: 600;
+      cursor: pointer; white-space: nowrap;
+      background: #fff; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; transition: all .15s;
+    }
+
+    .cat-tab.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+    /* ── NOTES ── */
+    textarea.form-input {
+      resize: none; min-height: 70px;
+      line-height: 1.5; font-size: .9rem;
+    }
+
+    /* ── SUMMARY BAR ── */
+    .summary-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid var(--pink-mid);
+      padding: 12px 16px;
+      max-width: 520px; margin: 0 auto;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 -4px 20px rgba(192,57,90,.10);
+    }
+
+    .summary-bar__info { flex: 1; }
+    .summary-bar__line1 { font-size: .8rem; font-weight: 600; color: var(--text); }
+    .summary-bar__line2 { font-size: .72rem; color: var(--muted); margin-top: 1px; }
+
+    .summary-bar__btn {
+      background: var(--pink); color: #fff;
+      border: none; border-radius: 50px;
+      padding: 12px 24px; font-size: .9rem; font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; transition: all .2s;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(192,57,90,.30);
+    }
+
+    .summary-bar__btn:hover { background: var(--pink-dark); }
+    .summary-bar__btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── SUCCESS ── */
+    .success-overlay {
+      position: fixed; inset: 0;
+      background: rgba(255,255,255,.96);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 100; text-align: center; padding: 32px;
+    }
+
+    .success-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: #fff; margin-bottom: 20px;
+      animation: pop .5s cubic-bezier(.175,.885,.32,1.275);
+    }
+
+    @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+
+    .success-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+    .success-detail { font-size: .9rem; color: var(--muted); line-height: 1.6; margin-bottom: 28px; }
+
+    .btn-new {
+      background: var(--pink); color: #fff;
+      border: none; border-radius: 50px;
+      padding: 13px 28px; font-size: .95rem; font-weight: 700;
+      font-family: 'DM Sans', sans-serif; cursor: pointer;
+      margin-bottom: 12px; width: 100%; max-width: 300px;
+    }
+
+    .btn-back {
+      background: none; border: 1.5px solid var(--pink-mid);
+      color: var(--muted); border-radius: 50px;
+      padding: 12px 28px; font-size: .88rem; font-weight: 600;
+      font-family: 'DM Sans', sans-serif; cursor: pointer;
+      width: 100%; max-width: 300px;
+      text-decoration: none; display: block; text-align: center;
+    }
+
+    /* ── RETURNING CUSTOMER CARD ── */
+    .returning-card {
+      background: linear-gradient(135deg, #fff5f7, #fde8ee);
+      border: 2px solid var(--pink-mid);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin: 0 0 4px;
+      animation: slideDown .25s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .returning-card__top {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .returning-card__avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--pink); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9rem; flex-shrink: 0;
+    }
+
+    .returning-card__name {
+      font-weight: 700; font-size: .95rem;
+    }
+
+    .returning-card__meta {
+      font-size: .75rem; color: var(--muted); margin-top: 1px;
+    }
+
+    .returning-card__label {
+      font-size: .68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .8px;
+      color: var(--pink); margin-bottom: 6px;
+    }
+
+    .suggest-row {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+
+    .suggest-chip {
+      padding: 5px 12px;
+      background: #fff;
+      border: 1.5px solid var(--pink-mid);
+      border-radius: 50px;
+      font-size: .75rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .suggest-chip:hover { border-color: var(--pink); background: var(--pink-soft); }
+    .suggest-chip.applied { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+    .suggest-note {
+      font-size: .78rem; color: var(--muted);
+      font-style: italic; margin-top: 6px;
+      padding: 6px 10px;
+      background: rgba(255,255,255,.6);
+      border-radius: 8px;
+    }
+
+    .hidden { display: none !important; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <a class="header__back" href="/admin.html">← Admin</a>
+  <div class="header__title">New Appointment</div>
+  <button class="header__save" id="btnSaveTop" disabled>Save</button>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- CUSTOMER -->
+  <div class="card">
+    <div class="card__label">👤 Customer</div>
+    <input class="form-input" id="custPhone" type="tel" inputmode="numeric" placeholder="Phone (610) 000-0000" maxlength="14" />
+    <input class="form-input" id="custName" type="text" placeholder="Name (auto-fills for returning customers)" autocomplete="off" />
+  </div>
+
+  <!-- RETURNING CUSTOMER SUGGESTION -->
+  <div id="returningCard" class="hidden" style="margin-bottom:12px;"></div>
+
+  <!-- DATE -->
+  <div class="card">
+    <div class="card__label">📅 Date</div>
+    <div class="quick-dates" id="quickDates"></div>
+    <input class="form-input" id="dateInput" type="date" />
+  </div>
+
+  <!-- TIME -->
+  <div class="card">
+    <div class="card__label">🕐 Time</div>
+    <div id="slotsWrap">
+      <div class="slots-loading">Select a date first</div>
+    </div>
+  </div>
+
+  <!-- STAFF -->
+  <div class="card">
+    <div class="card__label">👩‍🎨 Staff</div>
+    <div class="staff-grid" id="staffGrid">
+      <div class="slots-loading">Loading…</div>
+    </div>
+  </div>
+
+  <!-- SERVICE -->
+  <div class="card">
+    <div class="card__label">💅 Service</div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="svc-list" id="svcList">
+      <div class="slots-loading">Loading…</div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="card">
+    <div class="card__label">📝 Notes</div>
+    <textarea class="form-input" id="notes" placeholder="Optional notes…"></textarea>
+  </div>
+
+</div>
+
+<!-- SUMMARY BAR -->
+<div class="summary-bar" id="summaryBar">
+  <div class="summary-bar__info">
+    <div class="summary-bar__line1" id="sumLine1">Fill in all fields</div>
+    <div class="summary-bar__line2" id="sumLine2"></div>
+  </div>
+  <button class="summary-bar__btn" id="btnSave" disabled>Book →</button>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-overlay hidden" id="successScreen">
+  <div class="success-icon">✓</div>
+  <div class="success-title">Appointment Saved!</div>
+  <div class="success-detail" id="successDetail"></div>
+  <button class="btn-new" id="btnNewAppt">+ New Appointment</button>
+  <a class="btn-back" href="/admin.html">Back to Admin</a>
+</div>
+
+<script>
+  // ══════════════════════════════════════
+  //  CONFIG
+  // ══════════════════════════════════════
+  const SUPABASE_URL = 'https://nocbdtzbcrccedazrzic.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_PexyxDet9DqpS0lwsi7khA_g5d148DI';
+  const SALON_SLUG   = 'tipsy-nails';
+
+  const HOURS = {
+    1:{open:9,close:19}, 2:{open:9,close:19}, 3:{open:9,close:19},
+    4:{open:9,close:19}, 5:{open:9,close:19}, 6:{open:9,close:17},
+    0: null
+  };
+
+  // ══════════════════════════════════════
+  //  STATE
+  // ══════════════════════════════════════
+  let salonId      = null;
+  let allStaff     = [];
+  let allServices  = [];
+  let selDate      = null;
+  let selStaff     = null;
+  let selService   = null;
+  let selTime      = null;
+
+  // ══════════════════════════════════════
+  //  SUPABASE
+  // ══════════════════════════════════════
+  async function sb(path, method='GET', body=null) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+      method,
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': method==='POST' ? 'return=representation' : ''
+      },
+      body: body ? JSON.stringify(body) : null
+    });
+    const text = await res.text();
+    return text ? JSON.parse(text) : null;
+  }
+
+  // ══════════════════════════════════════
+  //  INIT
+  // ══════════════════════════════════════
+  async function init() {
+    const salons = await sb(`salons?slug=eq.${SALON_SLUG}&select=id`);
+    salonId = salons[0].id;
+
+    const [staff, services] = await Promise.all([
+      sb(`staff?salon_id=eq.${salonId}&is_active=eq.true&select=id,name&order=name`),
+      sb(`services?salon_id=eq.${salonId}&is_active=eq.true&select=id,name,category,price,duration_min&order=category,name`)
+    ]);
+
+    allStaff    = staff;
+    allServices = services;
+
+    renderQuickDates();
+    renderStaff();
+    renderServices();
+  }
+
+  // ══════════════════════════════════════
+  //  QUICK DATES
+  // ══════════════════════════════════════
+  function renderQuickDates() {
+    const wrap = document.getElementById('quickDates');
+    const today = new Date();
+
+    const options = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() + i);
+      const dow = d.getDay();
+      if (HOURS[dow] === null) continue; // skip Sunday
+      const label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow'
+        : d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+      options.push({ label, date: d });
+    }
+
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'qd-chip';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.qd-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const iso = opt.date.toISOString().slice(0,10);
+        document.getElementById('dateInput').value = iso;
+        selDate = opt.date;
+        selTime = null;
+        if (selService) loadSlots();
+      });
+      wrap.appendChild(btn);
+    });
+
+    // Default: today
+    const todayDow = today.getDay();
+    if (HOURS[todayDow] !== null) {
+      wrap.querySelector('.qd-chip')?.click();
+    }
+  }
+
+  // Date input manual
+  document.getElementById('dateInput').addEventListener('change', function() {
+    document.querySelectorAll('.qd-chip').forEach(b => b.classList.remove('active'));
+    selDate = new Date(this.value + 'T12:00:00');
+    selTime = null;
+    loadSlots();
+  });
+
+  // ══════════════════════════════════════
+  //  STAFF
+  // ══════════════════════════════════════
+  function renderStaff() {
+    const grid = document.getElementById('staffGrid');
+    grid.innerHTML = '';
+    allStaff.forEach(s => {
+      const btn = document.createElement('div');
+      btn.className = 'staff-btn';
+      btn.innerHTML = `
+        <div class="staff-btn__av">${s.name[0]}</div>
+        <div class="staff-btn__name">${s.name}</div>`;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.staff-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selStaff = s;
+        selTime = null;
+        loadSlots();
+        updateSummary();
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  // ══════════════════════════════════════
+  //  SERVICES
+  // ══════════════════════════════════════
+  function renderServices() {
+    const cats = ['All', ...new Set(allServices.map(s => s.category))];
+    const tabsEl = document.getElementById('catTabs');
+
+    cats.forEach((cat, i) => {
+      if (cat === 'All') return; // Ẩn tab All
+      const btn = document.createElement('button');
+      btn.className = 'cat-tab' + (i === 1 ? ' active' : '');
+      btn.textContent = cat;
+      btn.addEventListener('click', () => {
+        tabsEl.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderSvcList(allServices.filter(s => s.category === cat));
+      });
+      tabsEl.appendChild(btn);
+    });
+
+    // Default: show first category
+    const firstCat = cats.find(c => c !== 'All');
+    if (firstCat) renderSvcList(allServices.filter(s => s.category === firstCat));
+  }
+
+  function renderSvcList(list) {
+    const el = document.getElementById('svcList');
+    el.innerHTML = '';
+    list.forEach(svc => {
+      const item = document.createElement('div');
+      item.className = 'svc-item' + (selService?.id === svc.id ? ' active' : '');
+      item.innerHTML = `
+        <div>
+          <div class="svc-item__name">${svc.name}</div>
+          <div class="svc-item__time">⏱ ${svc.duration_min} min</div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="svc-item__price">$${(svc.price/100).toFixed(0)}</div>
+          <div class="svc-check">${selService?.id === svc.id ? '✓' : ''}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        selService = svc;
+        selTime = null;
+        renderSvcList(list);
+        loadSlots();
+        updateSummary();
+      });
+      el.appendChild(item);
+    });
+  }
+
+  // ══════════════════════════════════════
+  //  SLOTS
+  // ══════════════════════════════════════
+  async function loadSlots() {
+    const wrap = document.getElementById('slotsWrap');
+
+    if (!selDate) {
+      wrap.innerHTML = '<div class="slots-loading">Select a date first</div>';
+      return;
+    }
+    if (!selService) {
+      wrap.innerHTML = '<div class="slots-loading">Select a service first</div>';
+      return;
+    }
+
+    const dow = selDate.getDay();
+    const hours = HOURS[dow];
+    if (!hours) {
+      wrap.innerHTML = '<div class="slots-loading">Closed on this day</div>';
+      return;
+    }
+
+    wrap.innerHTML = '<div class="slots-loading">Checking availability…</div>';
+
+    const dayStart = new Date(selDate); dayStart.setHours(0,0,0,0);
+    const dayEnd   = new Date(selDate); dayEnd.setHours(23,59,59,999);
+
+    // Nếu chưa chọn staff thì check tất cả nhân viên
+    const staffFilter = selStaff ? `&staff_id=eq.${selStaff.id}` : '';
+    const existing = await sb(
+      `appointments?salon_id=eq.${salonId}${staffFilter}&starts_at=gte.${dayStart.toISOString()}&starts_at=lte.${dayEnd.toISOString()}&status=neq.cancelled&select=starts_at,ends_at,staff_id`
+    );
+
+    const duration = selService.duration_min;
+    const slots = [];
+    const now = new Date();
+
+    for (let m = hours.open * 60; m + duration <= hours.close * 60; m += 30) {
+      const start = new Date(selDate);
+      start.setHours(Math.floor(m/60), m%60, 0, 0);
+      const end = new Date(start.getTime() + duration * 60000);
+
+      if (start <= now) continue;
+
+      let conflict = false;
+      if (selStaff) {
+        // Check staff cụ thể
+        conflict = existing.some(a =>
+          new Date(a.starts_at) < end && new Date(a.ends_at) > start
+        );
+      } else {
+        // Check xem còn nhân viên nào trống không
+        const busyIds = new Set(existing
+          .filter(a => new Date(a.starts_at) < end && new Date(a.ends_at) > start)
+          .map(a => a.staff_id));
+        conflict = busyIds.size >= allStaff.length;
+      }
+
+      slots.push({ start, end, available: !conflict });
+    }
+
+    if (slots.length === 0) {
+      wrap.innerHTML = '<div class="slots-loading">No slots available</div>';
+      return;
+    }
+
+    wrap.innerHTML = '<div class="time-slots" id="slotsGrid"></div>';
+    const grid = document.getElementById('slotsGrid');
+
+    slots.forEach(slot => {
+      const btn = document.createElement('div');
+      const timeStr = slot.start.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', hour12:true });
+      const isSelected = selTime && slot.start.getTime() === selTime.start.getTime();
+
+      btn.className = 'ts-btn' +
+        (!slot.available ? ' unavail' : '') +
+        (isSelected ? ' active' : '');
+      btn.textContent = timeStr;
+
+      if (slot.available) {
+        btn.addEventListener('click', () => {
+          selTime = slot;
+          document.querySelectorAll('.ts-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updateSummary();
+        });
+      }
+
+      grid.appendChild(btn);
+    });
+  }
+
+  // ══════════════════════════════════════
+  //  PHONE FORMAT
+  // ══════════════════════════════════════
+  document.getElementById('custPhone').addEventListener('input', async function() {
+    let d = this.value.replace(/\D/g,'').slice(0,10);
+    if (d.length >= 7) d = `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    else if (d.length >= 4) d = `(${d.slice(0,3)}) ${d.slice(3)}`;
+    else if (d.length > 0) d = `(${d}`;
+    this.value = d;
+    updateSummary();
+
+    // Lookup khi đủ 10 số
+    if (d.replace(/\D/g,'').length === 10) {
+      await lookupCustomer(d.replace(/\D/g,''));
+    } else {
+      document.getElementById('returningCard').classList.add('hidden');
+    }
+  });
+
+  // ══════════════════════════════════════
+  //  CUSTOMER LOOKUP
+  // ══════════════════════════════════════
+  async function lookupCustomer(phone) {
+    try {
+      // Tìm khách
+      const customers = await sb(
+        `customers?salon_id=eq.${salonId}&phone=eq.${phone}&select=id,name,total_visits,total_points`
+      );
+
+      if (!customers || customers.length === 0) {
+        document.getElementById('returningCard').classList.add('hidden');
+        return;
+      }
+
+      const cust = customers[0];
+
+      // Tự điền tên
+      if (!document.getElementById('custName').value.trim()) {
+        document.getElementById('custName').value = cust.name || '';
+        updateSummary();
+      }
+
+      // Lấy cả visits VÀ appointments để tính most frequent
+      const [visits, appts] = await Promise.all([
+        sb(`visits?salon_id=eq.${salonId}&customer_id=eq.${cust.id}&select=services&order=created_at.desc&limit=20`),
+        sb(`appointments?salon_id=eq.${salonId}&customer_id=eq.${cust.id}&select=staff(name,id),services(name),notes,starts_at&order=starts_at.desc&status=neq.cancelled&limit=20`)
+      ]);
+
+      // Build suggestion card
+      const card = document.getElementById('returningCard');
+      card.classList.remove('hidden');
+
+      // Most frequent services — từ VISITS + APPOINTMENTS
+      const svcCount = {};
+
+      // Từ visits (check-in tại quầy)
+      visits.forEach(v => {
+        (v.services||[]).forEach(s => {
+          svcCount[s] = (svcCount[s]||0) + 1;
+        });
+      });
+
+      // Từ appointments (booking online + nhập tay)
+      appts.forEach(a => {
+        const svcName = a.services?.name;
+        if (svcName) svcCount[svcName] = (svcCount[svcName]||0) + 1;
+      });
+
+      const topSvcs = Object.entries(svcCount)
+        .sort((a,b) => b[1]-a[1])
+        .slice(0,4)
+        .map(e => e[0]);
+
+      // Most frequent staff
+      const staffCount = {};
+      appts.forEach(a => {
+        if (a.staff?.name) {
+          const key = a.staff.name + '|' + a.staff.id;
+          staffCount[key] = (staffCount[key]||0) + 1;
+        }
+      });
+      const topStaffEntry = Object.entries(staffCount).sort((a,b) => b[1]-a[1])[0];
+      const lastStaffName = topStaffEntry ? topStaffEntry[0].split('|')[0] : null;
+      const lastStaffId   = topStaffEntry ? topStaffEntry[0].split('|')[1] : null;
+
+      // Last note
+      const lastNote = appts.find(a => a.notes)?.notes || null;
+
+      const svcCounts = Object.entries(svcCount).sort((a,b)=>b[1]-a[1]);
+
+      card.innerHTML = `
+        <div class="returning-card">
+          <div class="returning-card__top">
+            <div class="returning-card__avatar">${(cust.name||'?')[0]}</div>
+            <div>
+              <div class="returning-card__name">👋 Welcome back, ${cust.name}!</div>
+              <div class="returning-card__meta">Visit #${cust.total_visits + 1} · ${cust.total_points} pts · ${visits.length} visits total</div>
+            </div>
+          </div>
+
+          ${topSvcs.length > 0 ? `
+          <div class="returning-card__label">💅 Most used services — tap to select</div>
+          <div class="suggest-row" id="suggestSvcs">
+            ${topSvcs.map(s => {
+              const count = svcCount[s] || 1;
+              return `<button class="suggest-chip" data-svcname="${s}" onclick="applySuggestSvc('${s}', this)">
+                ${s} <span style="opacity:.6;font-size:.68rem;">${count}×</span>
+              </button>`;
+            }).join('')}
+          </div>` : ''}
+
+          ${lastStaffName ? `
+          <div class="returning-card__label" style="margin-top:10px;">👩‍🎨 Favorite staff — tap to select</div>
+          <div class="suggest-row">
+            <button class="suggest-chip" onclick="applySuggestStaff('${lastStaffId}', '${lastStaffName}', this)">
+              ${lastStaffName} <span style="opacity:.6;font-size:.68rem;">${staffCount[lastStaffName+'|'+lastStaffId]}×</span>
+            </button>
+          </div>` : ''}
+
+          ${lastNote ? `
+          <div class="returning-card__label" style="margin-top:10px;">📝 Last note</div>
+          <div class="suggest-note">${lastNote}
+            <button onclick="applyNote('${lastNote.replace(/'/g,"\'")}', this)"
+              style="display:inline-block;margin-left:8px;padding:2px 8px;font-size:.7rem;
+              background:var(--pink);color:#fff;border:none;border-radius:50px;cursor:pointer;font-family:inherit;">
+              Use
+            </button>
+          </div>` : ''}
+        </div>`;
+
+    } catch(err) {
+      console.error('Lookup error:', err);
+    }
+  }
+
+  // Apply suggested service
+  function applySuggestSvc(svcName, btn) {
+    const svc = allServices.find(s => s.name === svcName);
+    if (!svc) return;
+    selService = svc;
+    selTime = null;
+    // Mark chip
+    document.querySelectorAll('#suggestSvcs .suggest-chip').forEach(b => b.classList.remove('applied'));
+    btn.classList.add('applied');
+    // Update service list
+    const activeCat = document.querySelector('.cat-tab.active')?.textContent || 'All';
+    const list = activeCat === 'All' ? allServices : allServices.filter(s => s.category === activeCat);
+    renderSvcList(list);
+    loadSlots();
+    updateSummary();
+    // Scroll to service section
+    document.getElementById('svcList').scrollIntoView({ behavior:'smooth', block:'nearest' });
+    // Also scroll to time after slots load
+    setTimeout(() => {
+      document.getElementById('slotsWrap')?.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }, 800);
+  }
+
+  // Apply suggested staff
+  function applySuggestStaff(staffId, staffName, btn) {
+    // Tim theo name truoc, fallback sang id
+    const staff = allStaff.find(s => s.name === staffName) ||
+                  allStaff.find(s => s.id === staffId);
+    if (!staff) return;
+    selStaff = staff;
+    selTime = null;
+    btn.classList.add('applied');
+    // Highlight staff button trong grid
+    document.querySelectorAll('.staff-btn').forEach(b => {
+      const n = b.querySelector('.staff-btn__name')?.textContent?.trim();
+      if (n === staff.name) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+    loadSlots();
+    updateSummary();
+    // Scroll den time section
+    setTimeout(() => {
+      document.getElementById('slotsWrap')?.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }, 600);
+  }
+
+  // Apply note
+  function applyNote(note, btn) {
+    document.getElementById('notes').value = note;
+    btn.textContent = '✓';
+    btn.style.background = 'var(--green)';
+  }
+
+  document.getElementById('custName').addEventListener('input', updateSummary);
+
+  // ══════════════════════════════════════
+  //  UPDATE SUMMARY + VALIDATE
+  // ══════════════════════════════════════
+  function updateSummary() {
+    const name  = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.replace(/\D/g,'');
+    const ready = name && phone.length === 10 && selStaff && selService && selDate && selTime;
+
+    document.getElementById('btnSave').disabled    = !ready;
+    document.getElementById('btnSaveTop').disabled = !ready;
+
+    if (ready) {
+      document.getElementById('sumLine1').textContent =
+        `${selService.name} with ${selStaff.name}`;
+      document.getElementById('sumLine2').textContent =
+        `${selDate.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} · ` +
+        selTime.start.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true}) +
+        ` · $${(selService.price/100).toFixed(0)}`;
+    } else {
+      const missing = [];
+      if (!selService) missing.push('service');
+      if (!selStaff)   missing.push('staff');
+      if (!selTime)    missing.push('time');
+      if (!name)       missing.push('name');
+      document.getElementById('sumLine1').textContent =
+        missing.length ? `Still need: ${missing.join(', ')}` : 'Fill in all fields';
+      document.getElementById('sumLine2').textContent = '';
+    }
+  }
+
+  // ══════════════════════════════════════
+  //  SAVE
+  // ══════════════════════════════════════
+  async function saveAppointment() {
+    const name  = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.replace(/\D/g,'');
+    const notes = document.getElementById('notes').value.trim();
+
+    const btnSave    = document.getElementById('btnSave');
+    const btnSaveTop = document.getElementById('btnSaveTop');
+    btnSave.innerHTML    = '<span class="spinner"></span>Saving…';
+    btnSave.disabled     = true;
+    btnSaveTop.disabled  = true;
+
+    try {
+      // Find or create customer
+      let customers = await sb(`customers?salon_id=eq.${salonId}&phone=eq.${phone}&select=id`);
+      let customerId;
+
+      if (customers && customers.length > 0) {
+        customerId = customers[0].id;
+      } else {
+        const [newCust] = await sb('customers', 'POST', {
+          salon_id: salonId, phone, name, total_visits: 0, total_points: 0
+        });
+        customerId = newCust.id;
+      }
+
+      // Create appointment
+      await sb('appointments', 'POST', {
+        salon_id:    salonId,
+        customer_id: customerId,
+        staff_id:    selStaff.id,
+        service_id:  selService.id,
+        starts_at:   selTime.start.toISOString(),
+        ends_at:     selTime.end.toISOString(),
+        status:      'confirmed',
+        notes:       notes || null
+      });
+
+      // Show success
+      document.getElementById('successDetail').innerHTML =
+        `<strong>${name}</strong><br>` +
+        `${selService.name} with <strong>${selStaff.name}</strong><br>` +
+        `${selDate.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}<br>` +
+        `${selTime.start.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true})} · $${(selService.price/100).toFixed(0)}`;
+
+      document.getElementById('successScreen').classList.remove('hidden');
+
+    } catch(err) {
+      console.error(err);
+      alert('Error saving. Please try again.');
+      btnSave.textContent  = 'Book →';
+      btnSave.disabled     = false;
+      btnSaveTop.disabled  = false;
+    }
+  }
+
+  document.getElementById('btnSave').addEventListener('click', saveAppointment);
+  document.getElementById('btnSaveTop').addEventListener('click', saveAppointment);
+
+  // New appointment
+  document.getElementById('btnNewAppt').addEventListener('click', () => {
+    document.getElementById('successScreen').classList.add('hidden');
+    document.getElementById('custName').value  = '';
+    document.getElementById('custPhone').value = '';
+    document.getElementById('notes').value     = '';
+    selStaff = selService = selDate = selTime = null;
+    document.querySelectorAll('.staff-btn, .qd-chip, .ts-btn, .svc-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('btnSave').textContent = 'Book →';
+    document.getElementById('slotsWrap').innerHTML = '<div class="slots-loading">Select date, staff & service first</div>';
+    renderSvcList(allServices);
+    updateSummary();
+    // Re-click today
+    document.querySelector('.qd-chip')?.click();
+  });
+
+  // ══════════════════════════════════════
+  //  START
+  // ══════════════════════════════════════
+  init().catch(console.error);
+</script>
+</body>
+</html>
