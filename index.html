@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tipsy Nails Spa – Premier nail salon in Bethlehem, PA. Manicures, pedicures, acrylics, gel nails, dip powder & waxing. Book online 24/7." />
+  <title>Tipsy Nails Spa – Bethlehem, PA</title>
+
+  <style>
+    /* =============================================
+       BIẾN MÀU & THIẾT LẬP CHUNG
+       Thay #C0395A để đổi màu chủ đạo toàn trang
+    ============================================= */
+    :root {
+      --pink:        #C0395A;
+      --pink-dark:   #a02f4c;
+      --pink-light:  #f9eaee;
+      --pink-mid:    #e8c0cc;
+      --text:        #1a1a1a;
+      --text-muted:  #6b6b6b;
+      --bg:          #ffffff;
+      --bg-alt:      #fdf6f8;
+      --radius:      12px;
+      --shadow:      0 4px 24px rgba(192,57,90,.10);
+      --transition:  .25s ease;
+    }
+
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* =============================================
+       THANH ĐIỀU HƯỚNG (NAVBAR)
+       Gắn cố định phía trên khi cuộn
+    ============================================= */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--pink-mid);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 60px;
+    }
+
+    .navbar__logo {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--pink);
+      letter-spacing: -.3px;
+    }
+
+    .navbar__logo span { color: var(--text); font-weight: 400; }
+
+    /* Nút Book Now trên navbar */
+    .btn-book {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--pink);
+      color: #fff;
+      font-weight: 700;
+      font-size: .875rem;
+      padding: 9px 18px;
+      border-radius: 50px;
+      transition: background var(--transition), transform var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-book:hover { background: var(--pink-dark); transform: translateY(-1px); }
+
+    .navbar__links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar__tryon {
+      color: var(--text);
+      font-size: .86rem;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 50px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .navbar__tryon:hover {
+      background: var(--pink-light);
+      color: var(--pink);
+    }
+
+    /* =============================================
+       HERO SECTION
+       Thay đổi gradient hoặc ảnh nền tại đây
+    ============================================= */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px 80px;
+      background:
+        linear-gradient(160deg, #fff5f7 0%, #fde8ee 40%, #f9d4e0 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Hoa văn trang trí nền hero */
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 400px; height: 400px;
+      background: var(--pink);
+      top: -120px; right: -120px;
+    }
+
+    .hero::after {
+      width: 300px; height: 300px;
+      background: var(--pink);
+      bottom: -80px; left: -80px;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: 1.5px solid var(--pink-mid);
+      color: var(--pink);
+      font-size: .8rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(192,57,90,.10);
+    }
+
+    .hero__title {
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .hero__title em {
+      font-style: normal;
+      color: var(--pink);
+    }
+
+    .hero__sub {
+      font-size: clamp(.95rem, 2.5vw, 1.15rem);
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Nút lớn trong hero */
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: background var(--transition), transform var(--transition),
+                  box-shadow var(--transition);
+    }
+
+    .btn-hero--primary {
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(192,57,90,.35);
+    }
+
+    .btn-hero--primary:hover {
+      background: var(--pink-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(192,57,90,.40);
+    }
+
+    .btn-hero--secondary {
+      background: #fff;
+      color: var(--pink);
+      border: 2px solid var(--pink);
+    }
+
+    .btn-hero--secondary:hover {
+      background: var(--pink-light);
+      transform: translateY(-2px);
+    }
+
+    /* Chỉ số thống kê bên dưới hero */
+    .hero__stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero__stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero__stat-val {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--pink);
+    }
+
+    .hero__stat-label {
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    /* =============================================
+       SECTION WRAPPER DÙNG CHUNG
+    ============================================= */
+    .section {
+      padding: 72px 20px;
+    }
+
+    .section--alt {
+      background: var(--bg-alt);
+    }
+
+    .section__header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* Nhãn nhỏ phía trên tiêu đề section */
+    .section__label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--pink);
+      background: var(--pink-light);
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+
+    .section__title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: -.5px;
+      margin-bottom: 14px;
+    }
+
+    .section__desc {
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    /* Dải phân cách màu hồng dưới tiêu đề */
+    .section__title::after {
+      content: "";
+      display: block;
+      width: 48px;
+      height: 4px;
+      background: var(--pink);
+      border-radius: 2px;
+      margin: 14px auto 0;
+    }
+
+    /* =============================================
+       ABOUT US
+    ============================================= */
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+      .about__grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Thẻ tính năng nổi bật */
+    .about__feature {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .about__icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      border-radius: var(--radius);
+      background: var(--pink-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .about__feature-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .about__feature-text {
+      font-size: .9rem;
+      color: var(--text-muted);
+    }
+
+    /* Hộp văn bản giới thiệu */
+    .about__text-box {
+      max-width: 760px;
+      margin: 0 auto 48px;
+      background: var(--pink-light);
+      border-left: 4px solid var(--pink);
+      padding: 24px 28px;
+      border-radius: var(--radius);
+      font-size: 1.02rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    /* =============================================
+       SERVICES – SEARCH & FILTER
+    ============================================= */
+    .services__controls {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 700px;
+      margin: 0 auto 36px;
+    }
+
+    /* Ô tìm kiếm dịch vụ */
+    .services__search-wrap {
+      position: relative;
+    }
+
+    .services__search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      font-size: 1rem;
+    }
+
+    .services__search {
+      width: 100%;
+      padding: 12px 16px 12px 40px;
+      border: 2px solid var(--pink-mid);
+      border-radius: 50px;
+      font-size: .95rem;
+      outline: none;
+      transition: border-color var(--transition);
+      background: #fff;
+    }
+
+    .services__search:focus { border-color: var(--pink); }
+
+    /* Nút lọc theo danh mục */
+    .services__filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      padding: 7px 16px;
+      border: 2px solid var(--pink-mid);
+      border-radius: 50px;
+      background: #fff;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+      color: var(--text-muted);
+    }
+
+    .filter-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+    .filter-btn.active {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: #fff;
+    }
+
+    /* Lưới danh sách dịch vụ */
+    .services__grid {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    @media (min-width: 480px) {
+      .services__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 768px) {
+      .services__grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Thẻ từng dịch vụ */
+    .service-card {
+      background: #fff;
+      border: 1.5px solid #eedde3;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      transition: box-shadow var(--transition), transform var(--transition),
+                  border-color var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+      border-color: var(--pink-mid);
+    }
+
+    /* Nhãn danh mục góc trên phải */
+    .service-card__cat {
+      position: absolute;
+      top: 10px; right: 10px;
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      background: var(--pink-light);
+      color: var(--pink);
+      padding: 2px 8px;
+      border-radius: 50px;
+    }
+
+    .service-card__name {
+      font-weight: 700;
+      font-size: .95rem;
+      margin-bottom: 8px;
+      padding-right: 60px; /* tránh đè lên nhãn danh mục */
+    }
+
+    .service-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: .85rem;
+    }
+
+    .service-card__price {
+      color: var(--pink);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .service-card__time {
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Thông báo không tìm thấy kết quả */
+    .services__empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 40px 20px;
+      grid-column: 1 / -1;
+    }
+
+    /* =============================================
+       REVIEWS
+    ============================================= */
+    .reviews__rating-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .reviews__score {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--pink);
+      line-height: 1;
+    }
+
+    .reviews__stars-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+    }
+
+    .reviews__count {
+      font-size: .8rem;
+      color: var(--text-muted);
+    }
+
+    /* Lưới thẻ review */
+    .reviews__grid {
+      display: grid;
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 600px) {
+      .reviews__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Thẻ review đơn */
+    .review-card {
+      background: #fff;
+      border: 1.5px solid #eedde3;
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 2px 12px rgba(192,57,90,.07);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .review-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .review-card__top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    /* Avatar chữ cái đầu tên */
+    .review-card__avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--pink);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .review-card__name {
+      font-weight: 700;
+      font-size: .95rem;
+    }
+
+    .review-card__service {
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+
+    .review-card__quote {
+      font-size: .95rem;
+      color: var(--text);
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    .review-card__quote::before { content: "\201C"; }
+    .review-card__quote::after  { content: "\201D"; }
+
+    /* =============================================
+       VIRTUAL NAIL TRY-ON
+    ============================================= */
+    .tryon {
+      background: #f7fbfb;
+    }
+
+    .tryon__shell {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 22px;
+    }
+
+    @media (min-width: 900px) {
+      .tryon__shell { grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); }
+    }
+
+    .tryon__stage {
+      position: relative;
+      min-height: 520px;
+      border: 1.5px solid #cfe1df;
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(140deg, rgba(23, 54, 60, .92), rgba(28, 83, 82, .86)),
+        #17363c;
+      box-shadow: 0 12px 34px rgba(18, 55, 58, .12);
+    }
+
+    .tryon__video,
+    .tryon__snapshot,
+    .tryon__mask-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: none;
+    }
+
+    .tryon__stage.is-front-camera .tryon__video { transform: scaleX(-1); }
+
+    .tryon__snapshot {
+      display: none;
+      transform: none;
+    }
+
+    .tryon__mask-canvas {
+      z-index: 2;
+      pointer-events: none;
+      transform: none;
+    }
+
+    #nailOverlayLayer {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .tryon__stage.is-captured .tryon__video { display: none; }
+    .tryon__stage.is-captured .tryon__snapshot { display: block; }
+
+    .tryon__fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 26px;
+      color: rgba(255,255,255,.86);
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 48% 74%, rgba(246, 194, 178, .78) 0 10%, transparent 11%),
+        radial-gradient(ellipse at 58% 61%, rgba(246, 194, 178, .82) 0 8%, transparent 9%),
+        radial-gradient(ellipse at 48% 58%, rgba(246, 194, 178, .78) 0 8%, transparent 9%),
+        radial-gradient(ellipse at 38% 61%, rgba(246, 194, 178, .74) 0 8%, transparent 9%),
+        linear-gradient(140deg, #17363c, #275d5c);
+    }
+
+    .tryon__fallback strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .tryon__stage.camera-on .tryon__fallback,
+    .tryon__stage.is-captured .tryon__fallback {
+      display: none;
+    }
+
+    .tryon__guide {
+      position: absolute;
+      inset: 18px;
+      border: 2px dashed rgba(255,255,255,.45);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .tryon__guide::after {
+      content: "Align fingertips inside this frame";
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      color: #fff;
+      background: rgba(11, 29, 33, .68);
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: .78rem;
+      white-space: nowrap;
+    }
+
+    .tryon__scanbar {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 18%;
+      height: 3px;
+      background: #8ee6d4;
+      box-shadow: 0 0 18px rgba(142, 230, 212, .9);
+      opacity: 0;
+      transform: translateY(-60px);
+      pointer-events: none;
+    }
+
+    .tryon__stage.scanning .tryon__scanbar {
+      animation: scanSweep 1.2s ease-in-out;
+    }
+
+    @keyframes scanSweep {
+      0% { opacity: 0; transform: translateY(-60px); }
+      12%, 88% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(320px); }
+    }
+
+    .nail-overlay {
+      position: absolute;
+      width: 46px;
+      height: 82px;
+      left: 50%;
+      top: 50%;
+      border-radius: 50% 50% 48% 48% / 70% 70% 32% 32%;
+      background: var(--nail-color, #c0395a);
+      opacity: var(--nail-opacity, .86);
+      transform: translate(-50%, -50%) rotate(var(--nail-rotate, 0deg));
+      transform-origin: 50% 70%;
+      mix-blend-mode: multiply;
+      box-shadow:
+        inset 0 -10px 18px rgba(40, 10, 20, .18),
+        inset 0 12px 16px rgba(255,255,255,.24),
+        0 4px 10px rgba(0,0,0,.14);
+      pointer-events: none;
+    }
+
+    .nail-overlay::after {
+      content: "";
+      position: absolute;
+      left: 24%;
+      top: 12%;
+      width: 22%;
+      height: 54%;
+      border-radius: 50px;
+      background: rgba(255,255,255,.42);
+      filter: blur(.4px);
+    }
+
+    .nail-overlay.is-matte {
+      box-shadow:
+        inset 0 -8px 14px rgba(40, 10, 20, .12),
+        0 3px 8px rgba(0,0,0,.10);
+    }
+
+    .nail-overlay.is-matte::after { display: none; }
+
+    .tryon__panel {
+      border: 1.5px solid #d7e5e2;
+      border-radius: 8px;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(17, 54, 58, .08);
+    }
+
+    .tryon__panel + .tryon__panel { margin-top: 14px; }
+
+    .tryon__panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .tryon__status {
+      color: #47706e;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .tryon__actions,
+    .tryon__finish {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tryon__btn {
+      border: 1.5px solid #bfd7d3;
+      border-radius: 50px;
+      background: #fff;
+      color: #18383c;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: .86rem;
+      padding: 10px 14px;
+      transition: transform var(--transition), border-color var(--transition),
+                  background var(--transition), color var(--transition);
+    }
+
+    .tryon__btn:hover {
+      border-color: #1e726d;
+      transform: translateY(-1px);
+    }
+
+    .tryon__btn--primary {
+      background: #1e726d;
+      border-color: #1e726d;
+      color: #fff;
+    }
+
+    .tryon__btn--primary:hover { background: #175c58; color: #fff; }
+
+    .tryon__palette {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .color-swatch {
+      aspect-ratio: 1;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 0 1px #bfd7d3, 0 5px 14px rgba(20, 60, 62, .12);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .color-swatch:hover,
+    .color-swatch.is-active {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 3px #1e726d, 0 8px 18px rgba(20, 60, 62, .18);
+    }
+
+    .tryon__custom-color {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+
+    .tryon__custom-color input {
+      width: 44px;
+      height: 34px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .segmented {
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border: 1.5px solid #bfd7d3;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .segmented button {
+      border: 0;
+      background: #fff;
+      color: #47706e;
+      cursor: pointer;
+      font-weight: 800;
+      padding: 9px 16px;
+    }
+
+    .segmented button.is-active {
+      background: #1e726d;
+      color: #fff;
+    }
+
+    .segmented--three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: 100%;
+    }
+
+    .tryon__config {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tryon__field {
+      display: grid;
+      gap: 5px;
+      color: #315d5b;
+      font-size: .8rem;
+      font-weight: 800;
+    }
+
+    .tryon__field input {
+      width: 100%;
+      border: 1.5px solid #bfd7d3;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font: inherit;
+      color: #18383c;
+      outline: none;
+    }
+
+    .tryon__field input:focus { border-color: #1e726d; }
+
+    .tryon__sliders {
+      display: grid;
+      gap: 13px;
+    }
+
+    .tryon__slider {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      font-size: .84rem;
+      font-weight: 800;
+      color: #315d5b;
+    }
+
+    .tryon__slider input { accent-color: #1e726d; }
+
+    .tryon__preview {
+      width: 100%;
+      margin-top: 14px;
+      border: 1.5px solid #d7e5e2;
+      border-radius: 8px;
+      display: none;
+      overflow: hidden;
+    }
+
+    .tryon__preview img {
+      width: 100%;
+      display: block;
+    }
+
+    .tryon__note {
+      color: var(--text-muted);
+      font-size: .82rem;
+      margin-top: 12px;
+    }
+
+    /* =============================================
+       CONTACT + MAP
+    ============================================= */
+    .contact__grid {
+      display: grid;
+      gap: 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+      .contact__grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .contact__info { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Từng dòng thông tin liên hệ */
+    .contact__item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .contact__item-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--pink-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      color: var(--pink);
+    }
+
+    .contact__item-title {
+      font-weight: 700;
+      font-size: .9rem;
+      margin-bottom: 2px;
+    }
+
+    .contact__item-value {
+      font-size: .9rem;
+      color: var(--text-muted);
+    }
+
+    /* Bản đồ Google Maps nhúng */
+    .contact__map-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--pink-mid);
+      height: 320px;
+    }
+
+    .contact__map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* Nút Book Now lớn bên dưới contact */
+    .contact__cta {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--pink);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 16px 36px;
+      border-radius: 50px;
+      box-shadow: 0 8px 24px rgba(192,57,90,.35);
+      transition: background var(--transition), transform var(--transition),
+                  box-shadow var(--transition);
+    }
+
+    .btn-cta:hover {
+      background: var(--pink-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(192,57,90,.40);
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    .footer {
+      background: #1a1a1a;
+      color: #ccc;
+      text-align: center;
+      padding: 32px 20px;
+      font-size: .85rem;
+    }
+
+    .footer a { color: var(--pink); }
+
+    .footer__logo {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    /* =============================================
+       UTILITY & ANIMATION
+    ============================================= */
+    /* Ẩn thẻ dịch vụ khi filter không khớp */
+    .service-card.hidden { display: none; }
+
+    /* Hiệu ứng fade-in khi cuộn vào màn hình */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       NAVBAR
+  ============================================= -->
+  <nav class="navbar">
+    <div class="navbar__logo">Tipsy Nails <span>Spa</span></div>
+    <div class="navbar__links">
+      <a class="navbar__tryon" href="#tryon">Try Colors</a>
+      <a class="btn-book"
+         href="https://booksy.com/en-us/1217303_tipsy-nails-spa_nail-salon_134597_bethlehem"
+         target="_blank" rel="noopener">
+        ✦ Book Now
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- =============================================
+       HERO SECTION
+  ============================================= -->
+  <section class="hero" id="home">
+
+    <div class="hero__badge">
+      ★ 4.6 · 111 Reviews on Booksy
+    </div>
+
+    <h1 class="hero__title">
+      Your Nails Deserve<br />
+      <em>The Best Care</em>
+    </h1>
+
+    <p class="hero__sub">
+      Premium nail salon in Bethlehem, PA. Manicures, pedicures, acrylics,
+      gel, dip powder &amp; waxing — all in one place.
+    </p>
+
+    <div class="hero__actions">
+      <a class="btn-hero btn-hero--primary"
+         href="https://booksy.com/en-us/1217303_tipsy-nails-spa_nail-salon_134597_bethlehem"
+         target="_blank" rel="noopener">
+        ✦ Book Appointment
+      </a>
+      <a class="btn-hero btn-hero--secondary" href="#services">
+        View Services
+      </a>
+      <a class="btn-hero btn-hero--secondary" href="#tryon">
+        Try Nail Colors
+      </a>
+    </div>
+
+    <!-- Số liệu ngắn gọn -->
+    <div class="hero__stats">
+      <div class="hero__stat">
+        <span class="hero__stat-val">4.6★</span>
+        <span class="hero__stat-label">Rating</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-val">111+</span>
+        <span class="hero__stat-label">Reviews</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-val">24/7</span>
+        <span class="hero__stat-label">Online Booking</span>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- =============================================
+       VIRTUAL NAIL TRY-ON
+  ============================================= -->
+  <section class="section tryon" id="tryon">
+    <div class="section__header fade-in">
+      <span class="section__label">Virtual Try-On</span>
+      <h2 class="section__title">Scan Your Hand &amp; Try Nail Colors</h2>
+      <p class="section__desc">
+        Open the camera, align your fingertips, then test polish shades before booking.
+      </p>
+    </div>
+
+    <div class="tryon__shell fade-in">
+      <div class="tryon__stage" id="tryonStage">
+        <video class="tryon__video" id="tryonVideo" playsinline muted></video>
+        <canvas id="tryonCanvas" hidden></canvas>
+        <canvas class="tryon__mask-canvas" id="nailMaskCanvas"></canvas>
+        <img class="tryon__snapshot" id="tryonSnapshot" alt="Captured nail color preview" />
+        <div class="tryon__fallback">
+          <div>
+            <strong>Camera preview</strong>
+            Tap Start Camera, or use the sample hand guide to test colors.
+          </div>
+        </div>
+        <div class="tryon__guide"></div>
+        <div class="tryon__scanbar"></div>
+        <div id="nailOverlayLayer"></div>
+      </div>
+
+      <div>
+        <div class="tryon__panel">
+          <div class="tryon__panel-title">
+            <span>Hand scan</span>
+            <span class="tryon__status" id="tryonStatus">Ready</span>
+          </div>
+          <div class="tryon__actions">
+            <button class="tryon__btn tryon__btn--primary" id="startCameraBtn" type="button">Start Camera</button>
+            <button class="tryon__btn" id="switchCameraBtn" type="button">Switch Camera</button>
+            <button class="tryon__btn" id="scanHandBtn" type="button">Scan Hand</button>
+            <button class="tryon__btn" id="captureBtn" type="button">Capture</button>
+            <button class="tryon__btn" id="liveBtn" type="button">Live View</button>
+            <button class="tryon__btn" id="saveTrainingBtn" type="button">Save Training Photo</button>
+          </div>
+          <p class="tryon__note">
+            For best results, place one hand flat under good light and keep fingertips inside the frame.
+          </p>
+        </div>
+
+        <div class="tryon__panel">
+          <div class="tryon__panel-title">
+            <span>AI mode</span>
+            <span class="tryon__status" id="segmentStatus">Landmark</span>
+          </div>
+          <div class="segmented segmented--three" aria-label="AI mode">
+            <button class="is-active" id="landmarkModeBtn" type="button">Landmark</button>
+            <button id="segmentModeBtn" type="button">Segment</button>
+            <button id="collectModeBtn" type="button">Collect</button>
+          </div>
+          <div class="tryon__config" id="segmentConfig" hidden>
+            <label class="tryon__field">
+              Roboflow model URL
+              <input id="roboflowModelUrl" type="url" placeholder="https://outline.roboflow.com/workspace/model/version" />
+            </label>
+            <label class="tryon__field">
+              API key
+              <input id="roboflowApiKey" type="password" placeholder="Roboflow API key" />
+            </label>
+            <button class="tryon__btn" id="saveSegmentConfigBtn" type="button">Save Segmentation Config</button>
+          </div>
+          <p class="tryon__note">
+            Segmentation uses a trained nail mask model. Collect mode saves camera frames for labeling.
+          </p>
+        </div>
+
+        <div class="tryon__panel">
+          <div class="tryon__panel-title">Choose polish</div>
+          <div class="tryon__palette" id="tryonPalette" aria-label="Nail polish color palette"></div>
+          <label class="tryon__custom-color">
+            Custom shade
+            <input id="customNailColor" type="color" value="#C0395A" aria-label="Custom nail color" />
+          </label>
+        </div>
+
+        <div class="tryon__panel">
+          <div class="tryon__panel-title">Adjust fit</div>
+          <div class="tryon__finish">
+            <div class="segmented" aria-label="Nail finish">
+              <button class="is-active" id="glossBtn" type="button">Gloss</button>
+              <button id="matteBtn" type="button">Matte</button>
+            </div>
+            <button class="tryon__btn" id="resetFitBtn" type="button">Reset Fit</button>
+          </div>
+          <div class="tryon__sliders" style="margin-top:16px;">
+            <label class="tryon__slider">
+              <span>Size</span>
+              <input id="nailSize" type="range" min="45" max="110" value="72" />
+            </label>
+            <label class="tryon__slider">
+              <span>Spread</span>
+              <input id="nailSpread" type="range" min="82" max="124" value="100" />
+            </label>
+            <label class="tryon__slider">
+              <span>Height</span>
+              <input id="nailHeight" type="range" min="-18" max="18" value="0" />
+            </label>
+            <label class="tryon__slider">
+              <span>Opacity</span>
+              <input id="nailOpacity" type="range" min="35" max="100" value="70" />
+            </label>
+          </div>
+        </div>
+
+        <div class="tryon__preview" id="tryonPreview"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       ABOUT US
+  ============================================= -->
+  <section class="section section--alt" id="about">
+    <div class="section__header fade-in">
+      <span class="section__label">About Us</span>
+      <h2 class="section__title">Why Choose Tipsy Nails Spa?</h2>
+    </div>
+
+    <!-- Đoạn văn giới thiệu -->
+    <p class="about__text-box fade-in">
+      Welcome to <strong>Tipsy Nails Spa</strong> — your go-to nail salon in Bethlehem, PA.
+      We specialize in high-quality nail care services including manicures, pedicures, acrylics,
+      gel nails, dip powder, and waxing. Our skilled team is dedicated to making you look and feel
+      your best. Book online 24/7 and experience the difference.
+    </p>
+
+    <!-- Lưới 4 tính năng nổi bật -->
+    <div class="about__grid">
+      <div class="about__feature fade-in">
+        <div class="about__icon">💅</div>
+        <div>
+          <p class="about__feature-title">Expert Nail Technicians</p>
+          <p class="about__feature-text">
+            Our talented team brings precision and artistry to every service,
+            from classic manicures to intricate nail art.
+          </p>
+        </div>
+      </div>
+
+      <div class="about__feature fade-in">
+        <div class="about__icon">✨</div>
+        <div>
+          <p class="about__feature-title">Premium Products</p>
+          <p class="about__feature-text">
+            We use only top-tier products — IBD, OPI, CND — for long-lasting,
+            beautiful results that protect your natural nails.
+          </p>
+        </div>
+      </div>
+
+      <div class="about__feature fade-in">
+        <div class="about__icon">📱</div>
+        <div>
+          <p class="about__feature-title">Easy Online Booking</p>
+          <p class="about__feature-text">
+            Book your appointment anytime, anywhere through Booksy.
+            No waiting on hold — instant confirmation.
+          </p>
+        </div>
+      </div>
+
+      <div class="about__feature fade-in">
+        <div class="about__icon">🌸</div>
+        <div>
+          <p class="about__feature-title">Relaxing Atmosphere</p>
+          <p class="about__feature-text">
+            Unwind in our welcoming salon designed to give you
+            a true spa experience every visit.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       SERVICES – SEARCH + FILTER
+       Thêm/bớt dịch vụ bằng cách chỉnh mảng SERVICES
+       trong script ở cuối file
+  ============================================= -->
+  <section class="section" id="services">
+    <div class="section__header fade-in">
+      <span class="section__label">Our Services</span>
+      <h2 class="section__title">Service Menu &amp; Pricing</h2>
+      <p class="section__desc">Prices marked <strong>+</strong> may vary depending on length and design.</p>
+    </div>
+
+    <!-- Thanh tìm kiếm & filter -->
+    <div class="services__controls fade-in">
+      <div class="services__search-wrap">
+        <span class="services__search-icon">🔍</span>
+        <input
+          class="services__search"
+          id="serviceSearch"
+          type="text"
+          placeholder="Search services…"
+          aria-label="Search services"
+        />
+      </div>
+
+      <!-- Nút filter danh mục — được tạo tự động bởi JS -->
+      <div class="services__filters" id="filterBtns"></div>
+    </div>
+
+    <!-- Lưới dịch vụ — được render bởi JS -->
+    <div class="services__grid" id="servicesGrid"></div>
+  </section>
+
+
+  <!-- =============================================
+       REVIEWS
+  ============================================= -->
+  <section class="section section--alt" id="reviews">
+    <div class="section__header fade-in">
+      <span class="section__label">Customer Reviews</span>
+      <h2 class="section__title">What Our Clients Say</h2>
+    </div>
+
+    <!-- Điểm tổng quan -->
+    <div class="reviews__rating-bar fade-in">
+      <span class="reviews__score">4.6</span>
+      <div class="reviews__stars-block">
+        <span class="stars">★★★★★</span>
+        <span class="reviews__count">Based on 111 reviews · Booksy</span>
+      </div>
+    </div>
+
+    <!-- Lưới 4 review -->
+    <div class="reviews__grid">
+
+      <div class="review-card fade-in">
+        <div class="review-card__top">
+          <div class="review-card__avatar">A</div>
+          <div>
+            <p class="review-card__name">Ana Maria</p>
+            <p class="review-card__service">IBD Full Set</p>
+            <span class="stars" style="font-size:.85rem;">★★★★★</span>
+          </div>
+        </div>
+        <p class="review-card__quote">Lovely work! Great service! 10/10 recommend!</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-card__top">
+          <div class="review-card__avatar">A</div>
+          <div>
+            <p class="review-card__name">Antonisha</p>
+            <p class="review-card__service">Acrylic Fill</p>
+            <span class="stars" style="font-size:.85rem;">★★★★★</span>
+          </div>
+        </div>
+        <p class="review-card__quote">Love my nails!!!</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-card__top">
+          <div class="review-card__avatar">L</div>
+          <div>
+            <p class="review-card__name">Lauren</p>
+            <p class="review-card__service">Gel Manicure + Spa Pedi</p>
+            <span class="stars" style="font-size:.85rem;">★★★★★</span>
+          </div>
+        </div>
+        <p class="review-card__quote">Best spa pedicure and gel manicure. They look fantastic.</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-card__top">
+          <div class="review-card__avatar">M</div>
+          <div>
+            <p class="review-card__name">Melissa</p>
+            <p class="review-card__service">Acrylic Fill</p>
+            <span class="stars" style="font-size:.85rem;">★★★★★</span>
+          </div>
+        </div>
+        <p class="review-card__quote">Always 5 star service.</p>
+      </div>
+
+    </div>
+
+    <!-- CTA đặt lịch sau khi đọc review -->
+    <div class="contact__cta" style="margin-top:48px;">
+      <a class="btn-cta"
+         href="https://booksy.com/en-us/1217303_tipsy-nails-spa_nail-salon_134597_bethlehem"
+         target="_blank" rel="noopener">
+        ✦ Book Your Appointment
+      </a>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       CONTACT + MAP
+  ============================================= -->
+  <section class="section" id="contact">
+    <div class="section__header fade-in">
+      <span class="section__label">Find Us</span>
+      <h2 class="section__title">Contact &amp; Location</h2>
+    </div>
+
+    <div class="contact__grid fade-in">
+
+      <!-- Thông tin liên hệ bên trái -->
+      <div class="contact__info">
+        <div class="contact__item">
+          <div class="contact__item-icon">📍</div>
+          <div>
+            <p class="contact__item-title">Address</p>
+            <p class="contact__item-value">3008 Linden St<br />Bethlehem, PA 18017</p>
+          </div>
+        </div>
+
+        <div class="contact__item">
+          <div class="contact__item-icon">🕐</div>
+          <div>
+            <p class="contact__item-title">Hours</p>
+            <!-- Cập nhật giờ mở cửa tại đây nếu có -->
+            <p class="contact__item-value">Contact us or check Booksy<br />for current availability.</p>
+          </div>
+        </div>
+
+        <div class="contact__item">
+          <div class="contact__item-icon">📅</div>
+          <div>
+            <p class="contact__item-title">Online Booking</p>
+            <p class="contact__item-value">
+              <a href="https://booksy.com/en-us/1217303_tipsy-nails-spa_nail-salon_134597_bethlehem"
+                 target="_blank" rel="noopener"
+                 style="color:var(--pink); font-weight:700;">
+                Book on Booksy ↗
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="contact__item">
+          <div class="contact__item-icon">⭐</div>
+          <div>
+            <p class="contact__item-title">Rating</p>
+            <p class="contact__item-value">4.6 stars · 111+ reviews on Booksy</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bản đồ Google Maps bên phải -->
+      <div class="contact__map-wrap">
+        <!--
+          Nhúng Google Maps: địa chỉ 3008 Linden St, Bethlehem PA 18017
+          Nếu cần đổi địa chỉ, thay giá trị trong tham số q= bên dưới
+        -->
+        <iframe
+          title="Tipsy Nails Spa location on Google Maps"
+          src="https://maps.google.com/maps?q=3008+Linden+St+Bethlehem+PA+18017&output=embed&hl=en&z=15"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+    </div>
+
+    <!-- CTA lớn cuối trang -->
+    <div class="contact__cta fade-in">
+      <a class="btn-cta"
+         href="https://booksy.com/en-us/1217303_tipsy-nails-spa_nail-salon_134597_bethlehem"
+         target="_blank" rel="noopener">
+        ✦ Book Now on Booksy
+      </a>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       FOOTER
+  ============================================= -->
+  <footer class="footer">
+    <p class="footer__logo">Tipsy Nails Spa</p>
+    <p>3008 Linden St, Bethlehem, PA 18017</p>
+    <p style="margin-top:8px;">
+      <a href="https://booksy.com/en-us/1217303_tipsy-nails-spa_nail-salon_134597_bethlehem"
+         target="_blank" rel="noopener">Book on Booksy</a>
+    </p>
+    <p style="margin-top:16px; font-size:.78rem; color:#888;">
+      © <span id="year"></span> Tipsy Nails Spa. All rights reserved.
+    </p>
+  </footer>
+
+
+  <!-- =============================================
+       JAVASCRIPT
+       1. Dữ liệu dịch vụ (mảng SERVICES)
+       2. Render dịch vụ + filter + search
+       3. Hiệu ứng fade-in khi cuộn
+  ============================================= -->
+  <script>
+    /* -----------------------------------------------
+       DỮ LIỆU DỊCH VỤ
+       Để thêm dịch vụ: thêm object vào mảng dưới.
+       Để sửa giá / thời gian: chỉnh các trường tương ứng.
+       Để đổi tên danh mục: đổi giá trị "cat"
+         và cập nhật nút filter tương ứng.
+    ----------------------------------------------- */
+    const SERVICES = [
+      // Popular
+      { name: "Gel Pedicure",        price: "$50",   time: "50 min",  cat: "Popular"      },
+      { name: "Acrylic Fill",         price: "$40+",  time: "40 min",  cat: "Popular"      },
+      { name: "Gel Manicure",         price: "$35",   time: "30 min",  cat: "Popular"      },
+
+      // Manicure
+      { name: "Manicure",             price: "$23+",  time: "40 min",  cat: "Manicure"     },
+      { name: "T2go",                 price: "$28",   time: "20 min",  cat: "Manicure"     },
+      { name: "Gel Manicure",         price: "$35",   time: "30 min",  cat: "Manicure"     },
+      { name: "Gel T2go",             price: "$40",   time: "30 min",  cat: "Manicure"     },
+      { name: "Soak Off",             price: "$15",   time: "15 min",  cat: "Manicure"     },
+
+      // Pedicure
+      { name: "Regular Pedicure",     price: "$38",   time: "30 min",  cat: "Pedicure"     },
+      { name: "Gel Pedicure",         price: "$50",   time: "50 min",  cat: "Pedicure"     },
+      { name: "Spa Pedicure",         price: "$55+",  time: "50 min",  cat: "Pedicure"     },
+
+      // Combo
+      { name: "Manicure & Pedicure",              price: "$58+",  time: "50 min",    cat: "Combo" },
+      { name: "Gel Mani & Regular Pedi",          price: "$70+",  time: "1 hr",      cat: "Combo" },
+      { name: "Gel Mani & Gel Pedi",              price: "$82+",  time: "1 hr 20 min", cat: "Combo" },
+
+      // Acrylic & Gel
+      { name: "Acrylic Fill",         price: "$40+",  time: "40 min",  cat: "Acrylic & Gel" },
+      { name: "Full Set Acrylic",     price: "$50+",  time: "45 min",  cat: "Acrylic & Gel" },
+      { name: "IBD Fill",             price: "$50+",  time: "40 min",  cat: "Acrylic & Gel" },
+      { name: "IBD Full Set",         price: "$60+",  time: "45 min",  cat: "Acrylic & Gel" },
+      { name: "Dip Powder",           price: "$45+",  time: "30 min",  cat: "Acrylic & Gel" },
+      { name: "Dip Powder Extension", price: "$55+",  time: "45 min",  cat: "Acrylic & Gel" },
+
+      // Waxing
+      { name: "Eye Brow Wax",         price: "$13+",  time: "5 min",   cat: "Waxing" },
+      { name: "Lip Wax",              price: "$10+",  time: "5 min",   cat: "Waxing" },
+      { name: "Chin Wax",             price: "$8",    time: "5 min",   cat: "Waxing" },
+      { name: "Face Wax",             price: "$38",   time: "20 min",  cat: "Waxing" },
+      { name: "Underarm Wax",         price: "$28+",  time: "30 min",  cat: "Waxing" },
+      { name: "Half Arm Wax",         price: "$28+",  time: "30 min",  cat: "Waxing" },
+      { name: "Full Arm Wax",         price: "$45",   time: "30 min",  cat: "Waxing" },
+      { name: "Half Leg Wax",         price: "$48+",  time: "30 min",  cat: "Waxing" },
+      { name: "Full Leg Wax",         price: "$68+",  time: "40 min",  cat: "Waxing" },
+    ];
+
+    /* -----------------------------------------------
+       RENDER FILTER BUTTONS
+       Tự động lấy danh sách danh mục từ mảng SERVICES,
+       thêm nút "All" ở đầu.
+    ----------------------------------------------- */
+    const cats = ["All", ...new Set(SERVICES.map(s => s.cat))];
+    const filterContainer = document.getElementById("filterBtns");
+
+    cats.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = "filter-btn" + (cat === "All" ? " active" : "");
+      btn.textContent = cat;
+      btn.dataset.cat = cat;
+      btn.addEventListener("click", () => {
+        // Đặt active cho nút được chọn
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        applyFilter();
+      });
+      filterContainer.appendChild(btn);
+    });
+
+    /* -----------------------------------------------
+       RENDER SERVICE CARDS
+    ----------------------------------------------- */
+    const grid = document.getElementById("servicesGrid");
+
+    function renderCards() {
+      grid.innerHTML = "";
+      SERVICES.forEach(s => {
+        const card = document.createElement("div");
+        card.className = "service-card";
+        card.dataset.cat = s.cat;
+        card.dataset.name = s.name.toLowerCase();
+        card.innerHTML = `
+          <span class="service-card__cat">${s.cat}</span>
+          <p class="service-card__name">${s.name}</p>
+          <div class="service-card__meta">
+            <span class="service-card__price">${s.price}</span>
+            <span class="service-card__time">⏱ ${s.time}</span>
+          </div>`;
+        grid.appendChild(card);
+      });
+    }
+
+    renderCards();
+
+    /* -----------------------------------------------
+       FILTER + SEARCH (chạy mỗi lần người dùng tương tác)
+    ----------------------------------------------- */
+    function applyFilter() {
+      const activeCat = document.querySelector(".filter-btn.active")?.dataset.cat || "All";
+      const query     = document.getElementById("serviceSearch").value.toLowerCase().trim();
+      const cards     = document.querySelectorAll(".service-card");
+      let visible     = 0;
+
+      cards.forEach(card => {
+        const catMatch  = activeCat === "All" || card.dataset.cat === activeCat;
+        const nameMatch = !query || card.dataset.name.includes(query);
+        const show      = catMatch && nameMatch;
+        card.classList.toggle("hidden", !show);
+        if (show) visible++;
+      });
+
+      // Hiển thị thông báo nếu không có kết quả
+      const existing = grid.querySelector(".services__empty");
+      if (existing) existing.remove();
+      if (visible === 0) {
+        const empty = document.createElement("p");
+        empty.className = "services__empty";
+        empty.textContent = "No services found. Try a different search or category.";
+        grid.appendChild(empty);
+      }
+    }
+
+    // Lắng nghe sự kiện tìm kiếm
+    document.getElementById("serviceSearch").addEventListener("input", applyFilter);
+
+    /* -----------------------------------------------
+       VIRTUAL NAIL TRY-ON
+    ----------------------------------------------- */
+    const TRYON_COLORS = [
+      "#C0395A", "#D72664", "#B91C1C", "#7C2D12", "#F97316", "#F8A5B8",
+      "#FDE047", "#84CC16", "#14B8A6", "#2563EB", "#7C3AED", "#111827",
+    ];
+
+    const nailTemplate = [
+      { x: .265, y: .415, w: .052, h: .142, r: -13 },
+      { x: .395, y: .315, w: .058, h: .166, r: -5 },
+      { x: .515, y: .292, w: .061, h: .178, r: 0 },
+      { x: .632, y: .327, w: .056, h: .162, r: 6 },
+      { x: .745, y: .438, w: .050, h: .132, r: 16 },
+    ];
+
+    const tryonState = {
+      color: TRYON_COLORS[0],
+      finish: "gloss",
+      size: 1,
+      spread: 1,
+      yOffset: 0,
+      opacity: .70,
+      stream: null,
+      handLandmarker: null,
+      tracking: false,
+      trackingFrame: null,
+      lastVideoTime: -1,
+      trackedNails: null,
+      currentNails: [],
+      facingMode: "environment",
+      aiMode: "landmark",
+      segmentConfig: {
+        modelUrl: localStorage.getItem("nailSegmentModelUrl") || "",
+        apiKey: localStorage.getItem("nailSegmentApiKey") || "",
+      },
+      segmentInFlight: false,
+      lastSegmentAt: 0,
+      segmentMasks: [],
+    };
+
+    const MEDIAPIPE_VERSION = "0.10.14";
+    const HAND_MODEL_URL =
+      "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
+    const FINGER_LANDMARKS = [
+      { tip: 4, dip: 3, pip: 2, mcp: 1, extraRotation: -8, widthRatio: .50, lengthRatio: .72 },
+      { tip: 8, dip: 7, pip: 6, mcp: 5, extraRotation: 0, widthRatio: .48, lengthRatio: .66 },
+      { tip: 12, dip: 11, pip: 10, mcp: 9, extraRotation: 0, widthRatio: .48, lengthRatio: .66 },
+      { tip: 16, dip: 15, pip: 14, mcp: 13, extraRotation: 0, widthRatio: .48, lengthRatio: .66 },
+      { tip: 20, dip: 19, pip: 18, mcp: 17, extraRotation: 7, widthRatio: .46, lengthRatio: .62 },
+    ];
+
+    const stage = document.getElementById("tryonStage");
+    const video = document.getElementById("tryonVideo");
+    const canvas = document.getElementById("tryonCanvas");
+    const maskCanvas = document.getElementById("nailMaskCanvas");
+    const snapshot = document.getElementById("tryonSnapshot");
+    const overlayLayer = document.getElementById("nailOverlayLayer");
+    const palette = document.getElementById("tryonPalette");
+    const statusText = document.getElementById("tryonStatus");
+    const segmentStatus = document.getElementById("segmentStatus");
+    const preview = document.getElementById("tryonPreview");
+
+    function setTryonStatus(text) {
+      statusText.textContent = text;
+    }
+
+    function getSampleNails(bounds) {
+      const centerX = .505;
+
+      return nailTemplate.map((nail) => {
+        const x = centerX + ((nail.x - centerX) * tryonState.spread);
+        const y = nail.y + (tryonState.yOffset / Math.max(bounds.height, 1));
+
+        return {
+          x: x * bounds.width,
+          y: y * bounds.height,
+          width: nail.w * bounds.width * tryonState.size,
+          height: nail.h * bounds.height * tryonState.size,
+          rotate: nail.r,
+        };
+      });
+    }
+
+    function getVisibleNails(bounds) {
+      if (tryonState.aiMode === "segment" && tryonState.segmentMasks.length) return [];
+      if (tryonState.trackedNails?.length) return tryonState.trackedNails;
+      if (stage.classList.contains("camera-on") && tryonState.handLandmarker && !stage.classList.contains("is-captured")) {
+        return [];
+      }
+      return getSampleNails(bounds);
+    }
+
+    function renderNailOverlays() {
+      overlayLayer.innerHTML = "";
+      const bounds = stage.getBoundingClientRect();
+      const nails = getVisibleNails(bounds);
+      tryonState.currentNails = nails;
+
+      nails.forEach((nail) => {
+        const overlay = document.createElement("span");
+
+        overlay.className = "nail-overlay" + (tryonState.finish === "matte" ? " is-matte" : "");
+        overlay.style.left = `${nail.x}px`;
+        overlay.style.top = `${nail.y}px`;
+        overlay.style.width = `${nail.width}px`;
+        overlay.style.height = `${nail.height}px`;
+        overlay.style.setProperty("--nail-color", tryonState.color);
+        overlay.style.setProperty("--nail-opacity", tryonState.opacity);
+        overlay.style.setProperty("--nail-rotate", `${nail.rotate}deg`);
+        overlayLayer.appendChild(overlay);
+      });
+    }
+
+    function renderPalette() {
+      palette.innerHTML = "";
+      TRYON_COLORS.forEach((color) => {
+        const swatch = document.createElement("button");
+        swatch.className = "color-swatch" + (color === tryonState.color ? " is-active" : "");
+        swatch.type = "button";
+        swatch.style.background = color;
+        swatch.setAttribute("aria-label", `Try nail color ${color}`);
+        swatch.addEventListener("click", () => {
+          tryonState.color = color;
+          document.getElementById("customNailColor").value = color;
+          renderPalette();
+          renderNailOverlays();
+        });
+        palette.appendChild(swatch);
+      });
+    }
+
+    async function startCamera() {
+      if (!window.isSecureContext) {
+        setTryonStatus("Need HTTPS");
+        return;
+      }
+
+      if (!navigator.mediaDevices?.getUserMedia) {
+        setTryonStatus("Camera not supported");
+        return;
+      }
+
+      try {
+        stopCameraStream();
+        tryonState.stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: tryonState.facingMode }, width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false,
+        });
+        video.srcObject = tryonState.stream;
+        await video.play();
+        stage.classList.add("camera-on");
+        stage.classList.toggle("is-front-camera", shouldMirrorCamera());
+        stage.classList.remove("is-captured");
+        setTryonStatus("Loading AI...");
+        renderNailOverlays();
+        await loadHandTracker();
+        startTrackingLoop();
+      } catch (error) {
+        setTryonStatus(error.name === "NotAllowedError" ? "Camera blocked" : "AI unavailable");
+      }
+    }
+
+    function stopCameraStream() {
+      if (!tryonState.stream) return;
+
+      tryonState.stream.getTracks().forEach((track) => track.stop());
+      tryonState.stream = null;
+      video.srcObject = null;
+      tryonState.trackedNails = null;
+      tryonState.segmentMasks = [];
+      tryonState.lastVideoTime = -1;
+      clearMaskCanvas();
+    }
+
+    async function switchCamera() {
+      tryonState.facingMode = tryonState.facingMode === "environment" ? "user" : "environment";
+      setTryonStatus(tryonState.facingMode === "environment" ? "Back camera" : "Front camera");
+
+      if (stage.classList.contains("camera-on")) {
+        await startCamera();
+      }
+    }
+
+    async function loadHandTracker() {
+      if (tryonState.handLandmarker) return;
+
+      const { FilesetResolver, HandLandmarker } = await import(
+        `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MEDIAPIPE_VERSION}`
+      );
+      const vision = await FilesetResolver.forVisionTasks(
+        `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MEDIAPIPE_VERSION}/wasm`
+      );
+
+      try {
+        tryonState.handLandmarker = await HandLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: HAND_MODEL_URL, delegate: "GPU" },
+          runningMode: "VIDEO",
+          numHands: 1,
+          minHandDetectionConfidence: .55,
+          minHandPresenceConfidence: .55,
+          minTrackingConfidence: .55,
+        });
+      } catch (error) {
+        tryonState.handLandmarker = await HandLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: HAND_MODEL_URL },
+          runningMode: "VIDEO",
+          numHands: 1,
+          minHandDetectionConfidence: .55,
+          minHandPresenceConfidence: .55,
+          minTrackingConfidence: .55,
+        });
+      }
+    }
+
+    function startTrackingLoop() {
+      if (tryonState.tracking) return;
+
+      tryonState.tracking = true;
+      const trackFrame = () => {
+        if (!tryonState.tracking) return;
+
+        if (
+          tryonState.handLandmarker &&
+          video.readyState >= 2 &&
+          !stage.classList.contains("is-captured") &&
+          video.currentTime !== tryonState.lastVideoTime
+        ) {
+          tryonState.lastVideoTime = video.currentTime;
+          const results = tryonState.handLandmarker.detectForVideo(video, performance.now());
+          updateTrackedHand(results);
+          if (tryonState.aiMode === "segment") queueSegmentation();
+        }
+
+        tryonState.trackingFrame = requestAnimationFrame(trackFrame);
+      };
+
+      trackFrame();
+    }
+
+    function updateTrackedHand(results) {
+      const landmarks = results.landmarks?.[0];
+
+      if (!landmarks) {
+        tryonState.trackedNails = null;
+        setTryonStatus("Find a hand");
+        renderNailOverlays();
+        return;
+      }
+
+      tryonState.trackedNails = buildNailsFromLandmarks(landmarks);
+      setTryonStatus(tryonState.aiMode === "segment" ? "Tracking + mask" : "Tracking live");
+      renderNailOverlays();
+    }
+
+    function buildNailsFromLandmarks(landmarks) {
+      const bounds = stage.getBoundingClientRect();
+      const points = landmarks.map((point) => mapLandmarkToStage(point, bounds));
+
+      const palmScale = median([
+        distance(points[5], points[9]),
+        distance(points[9], points[13]),
+        distance(points[13], points[17]),
+      ]);
+
+      return FINGER_LANDMARKS.map((finger) => {
+        const tip = points[finger.tip];
+        const dip = points[finger.dip];
+        const pip = points[finger.pip];
+        const fingerLength = distance(tip, dip);
+        const shaftWidth = Math.max(palmScale * .34, distance(dip, pip) * .34);
+        const nailLength = Math.max(fingerLength * finger.lengthRatio, shaftWidth * 1.22);
+        const nailWidth = Math.max(shaftWidth * finger.widthRatio, nailLength * .42);
+        const center = {
+          x: tip.x * .72 + dip.x * .28,
+          y: tip.y * .72 + dip.y * .28,
+        };
+
+        return {
+          x: center.x,
+          y: center.y + tryonState.yOffset,
+          width: clamp(nailWidth * tryonState.size, 12, 40),
+          height: clamp(nailLength * tryonState.size, 18, 62),
+          rotate: angleBetween(dip, tip) + finger.extraRotation,
+        };
+      });
+    }
+
+    function mapLandmarkToStage(point, bounds) {
+      const videoWidth = video.videoWidth || bounds.width;
+      const videoHeight = video.videoHeight || bounds.height;
+      const videoAspect = videoWidth / videoHeight;
+      const stageAspect = bounds.width / bounds.height;
+      let drawWidth = bounds.width;
+      let drawHeight = bounds.height;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (videoAspect > stageAspect) {
+        drawWidth = bounds.height * videoAspect;
+        offsetX = (bounds.width - drawWidth) / 2;
+      } else {
+        drawHeight = bounds.width / videoAspect;
+        offsetY = (bounds.height - drawHeight) / 2;
+      }
+
+      return {
+        x: offsetX + ((shouldMirrorCamera() ? 1 - point.x : point.x) * drawWidth),
+        y: offsetY + (point.y * drawHeight),
+      };
+    }
+
+    function mapImagePointToStage(point, sourceWidth, sourceHeight, bounds) {
+      const imageAspect = sourceWidth / sourceHeight;
+      const stageAspect = bounds.width / bounds.height;
+      let drawWidth = bounds.width;
+      let drawHeight = bounds.height;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (imageAspect > stageAspect) {
+        drawWidth = bounds.height * imageAspect;
+        offsetX = (bounds.width - drawWidth) / 2;
+      } else {
+        drawHeight = bounds.width / imageAspect;
+        offsetY = (bounds.height - drawHeight) / 2;
+      }
+
+      const x = point.x / sourceWidth;
+      const y = point.y / sourceHeight;
+
+      return {
+        x: offsetX + ((shouldMirrorCamera() ? 1 - x : x) * drawWidth),
+        y: offsetY + (y * drawHeight),
+      };
+    }
+
+    function shouldMirrorCamera() {
+      return tryonState.facingMode === "user";
+    }
+
+    function distance(a, b) {
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    }
+
+    function angleBetween(a, b) {
+      return Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI + 90;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function median(values) {
+      return values.slice().sort((a, b) => a - b)[Math.floor(values.length / 2)];
+    }
+
+    function setAiMode(mode) {
+      tryonState.aiMode = mode;
+      tryonState.segmentMasks = [];
+      clearMaskCanvas();
+      document.getElementById("landmarkModeBtn").classList.toggle("is-active", mode === "landmark");
+      document.getElementById("segmentModeBtn").classList.toggle("is-active", mode === "segment");
+      document.getElementById("collectModeBtn").classList.toggle("is-active", mode === "collect");
+      document.getElementById("segmentConfig").hidden = mode !== "segment";
+      segmentStatus.textContent = mode === "segment" ? "Mask model" : mode === "collect" ? "Collect data" : "Landmark";
+      renderNailOverlays();
+    }
+
+    function saveSegmentConfig() {
+      const modelUrl = document.getElementById("roboflowModelUrl").value.trim().replace(/\/$/, "");
+      const apiKey = document.getElementById("roboflowApiKey").value.trim();
+      tryonState.segmentConfig = { modelUrl, apiKey };
+      localStorage.setItem("nailSegmentModelUrl", modelUrl);
+      localStorage.setItem("nailSegmentApiKey", apiKey);
+      segmentStatus.textContent = modelUrl && apiKey ? "Model saved" : "Needs config";
+    }
+
+    function queueSegmentation() {
+      const now = performance.now();
+      if (tryonState.aiMode !== "segment") return;
+      if (tryonState.segmentInFlight || now - tryonState.lastSegmentAt < 900) return;
+      if (!tryonState.segmentConfig.modelUrl || !tryonState.segmentConfig.apiKey) {
+        segmentStatus.textContent = "Needs model";
+        return;
+      }
+
+      tryonState.lastSegmentAt = now;
+      runSegmentation();
+    }
+
+    async function runSegmentation() {
+      tryonState.segmentInFlight = true;
+      segmentStatus.textContent = "Masking...";
+
+      try {
+        const frame = getVideoFrameDataUrl(900);
+        const endpoint = `${tryonState.segmentConfig.modelUrl}?api_key=${encodeURIComponent(tryonState.segmentConfig.apiKey)}`;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: frame.dataUrl.replace(/^data:image\/jpeg;base64,/, ""),
+        });
+
+        if (!response.ok) throw new Error(`Segmentation ${response.status}`);
+
+        const result = await response.json();
+        tryonState.segmentMasks = parseRoboflowMasks(result, frame.width, frame.height);
+        drawMaskCanvas();
+        renderNailOverlays();
+        segmentStatus.textContent = tryonState.segmentMasks.length ? `${tryonState.segmentMasks.length} masks` : "No nails";
+      } catch (error) {
+        tryonState.segmentMasks = [];
+        clearMaskCanvas();
+        segmentStatus.textContent = "Mask failed";
+      } finally {
+        tryonState.segmentInFlight = false;
+      }
+    }
+
+    function parseRoboflowMasks(result, sourceWidth, sourceHeight) {
+      return (result.predictions || [])
+        .filter((prediction) => {
+          const label = String(prediction.class || prediction.class_name || "").toLowerCase();
+          return !label || label.includes("nail");
+        })
+        .map((prediction) => {
+          const rawPoints = prediction.points || prediction.polygon || [];
+          const points = rawPoints
+            .map((point) => ({
+              x: Number(point.x ?? point[0]),
+              y: Number(point.y ?? point[1]),
+            }))
+            .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+
+          return { points, confidence: prediction.confidence || 0, sourceWidth, sourceHeight };
+        })
+        .filter((mask) => mask.points.length >= 3)
+        .sort((a, b) => b.confidence - a.confidence)
+        .slice(0, 5);
+    }
+
+    function drawMaskCanvas() {
+      const bounds = stage.getBoundingClientRect();
+      const scale = Math.min(2, window.devicePixelRatio || 1);
+      maskCanvas.width = Math.round(bounds.width * scale);
+      maskCanvas.height = Math.round(bounds.height * scale);
+      const ctx = maskCanvas.getContext("2d");
+      ctx.scale(scale, scale);
+      ctx.clearRect(0, 0, bounds.width, bounds.height);
+
+      tryonState.segmentMasks.forEach((mask) => {
+        drawMaskPath(ctx, mask, bounds);
+      });
+    }
+
+    function drawMaskPath(ctx, mask, bounds) {
+      const points = mask.points.map((point) => mapImagePointToStage(point, mask.sourceWidth, mask.sourceHeight, bounds));
+      if (points.length < 3) return;
+
+      ctx.save();
+      ctx.globalAlpha = tryonState.opacity;
+      ctx.fillStyle = tryonState.color;
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      points.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
+      ctx.closePath();
+      ctx.fill();
+
+      if (tryonState.finish === "gloss") {
+        const center = points.reduce((acc, point) => ({ x: acc.x + point.x / points.length, y: acc.y + point.y / points.length }), { x: 0, y: 0 });
+        ctx.globalAlpha = .22;
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.ellipse(center.x - 4, center.y - 7, 3, 12, -.15, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function clearMaskCanvas() {
+      const ctx = maskCanvas.getContext("2d");
+      ctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+    }
+
+    function getVideoFrameDataUrl(maxWidth = 1280) {
+      const sourceWidth = video.videoWidth || 1280;
+      const sourceHeight = video.videoHeight || 720;
+      const width = Math.min(maxWidth, sourceWidth);
+      const height = Math.round(width * sourceHeight / sourceWidth);
+      const frameCanvas = document.createElement("canvas");
+      frameCanvas.width = width;
+      frameCanvas.height = height;
+      const ctx = frameCanvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, width, height);
+      return { dataUrl: frameCanvas.toDataURL("image/jpeg", .86), width, height };
+    }
+
+    function saveTrainingPhoto() {
+      if (video.readyState < 2) {
+        setTryonStatus("Start camera first");
+        return;
+      }
+
+      const frame = getVideoFrameDataUrl(1280);
+      const link = document.createElement("a");
+      const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+      link.href = frame.dataUrl;
+      link.download = `nail-training-${stamp}.jpg`;
+      link.click();
+      segmentStatus.textContent = "Photo saved";
+    }
+
+    async function scanHand() {
+      stage.classList.remove("scanning");
+      void stage.offsetWidth;
+      stage.classList.add("scanning");
+      setTryonStatus("Scanning...");
+      if (video.readyState >= 2 && !tryonState.handLandmarker) {
+        try {
+          await loadHandTracker();
+          startTrackingLoop();
+        } catch (error) {
+          setTryonStatus("AI unavailable");
+        }
+      }
+      window.setTimeout(() => {
+        stage.classList.remove("scanning");
+        setTryonStatus(tryonState.trackedNails?.length ? "Tracking live" : "Find a hand");
+        renderNailOverlays();
+      }, 1200);
+    }
+
+    function captureTryon() {
+      const bounds = stage.getBoundingClientRect();
+      const scale = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(bounds.width * scale);
+      canvas.height = Math.round(bounds.height * scale);
+      const ctx = canvas.getContext("2d");
+      ctx.scale(scale, scale);
+
+      if (video.readyState >= 2 && !stage.classList.contains("is-captured")) {
+        ctx.save();
+        if (shouldMirrorCamera()) {
+          ctx.translate(bounds.width, 0);
+          ctx.scale(-1, 1);
+        }
+        ctx.drawImage(video, 0, 0, bounds.width, bounds.height);
+        ctx.restore();
+      } else if (snapshot.src) {
+        ctx.drawImage(snapshot, 0, 0, bounds.width, bounds.height);
+      } else {
+        const gradient = ctx.createLinearGradient(0, 0, bounds.width, bounds.height);
+        gradient.addColorStop(0, "#17363c");
+        gradient.addColorStop(1, "#275d5c");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, bounds.width, bounds.height);
+      }
+
+      if (tryonState.segmentMasks.length) {
+        tryonState.segmentMasks.forEach((mask) => drawMaskPath(ctx, mask, bounds));
+      } else {
+        const nails = tryonState.currentNails.length ? tryonState.currentNails : getSampleNails(bounds);
+        nails.forEach((nail) => {
+          ctx.save();
+          ctx.globalAlpha = tryonState.opacity;
+          ctx.translate(nail.x, nail.y);
+          ctx.rotate(nail.rotate * Math.PI / 180);
+          ctx.fillStyle = tryonState.color;
+          roundNail(ctx, -nail.width / 2, -nail.height / 2, nail.width, nail.height);
+          ctx.fill();
+          if (tryonState.finish === "gloss") {
+            ctx.globalAlpha = .32;
+            ctx.fillStyle = "#ffffff";
+            roundNail(ctx, -nail.width * .18, -nail.height * .35, nail.width * .18, nail.height * .46);
+            ctx.fill();
+          }
+          ctx.restore();
+        });
+      }
+
+      const dataUrl = canvas.toDataURL("image/png");
+      snapshot.src = dataUrl;
+      preview.style.display = "block";
+      preview.innerHTML = `<img src="${dataUrl}" alt="Nail color preview capture" />`;
+      stage.classList.add("is-captured");
+      setTryonStatus("Preview captured");
+    }
+
+    function roundNail(ctx, x, y, width, height) {
+      const radius = width / 2;
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.bezierCurveTo(x + width, y, x + width, y + height * .35, x + width * .84, y + height * .78);
+      ctx.bezierCurveTo(x + width * .72, y + height, x + width * .28, y + height, x + width * .16, y + height * .78);
+      ctx.bezierCurveTo(x, y + height * .35, x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    function resetFit() {
+      tryonState.size = 1;
+      tryonState.spread = 1;
+      tryonState.yOffset = 0;
+      tryonState.opacity = .70;
+      tryonState.trackedNails = null;
+      tryonState.segmentMasks = [];
+      document.getElementById("nailSize").value = 72;
+      document.getElementById("nailSpread").value = 100;
+      document.getElementById("nailHeight").value = 0;
+      document.getElementById("nailOpacity").value = 70;
+      clearMaskCanvas();
+      renderNailOverlays();
+      setTryonStatus("Fit reset");
+    }
+
+    document.getElementById("startCameraBtn").addEventListener("click", startCamera);
+    document.getElementById("switchCameraBtn").addEventListener("click", switchCamera);
+    document.getElementById("scanHandBtn").addEventListener("click", scanHand);
+    document.getElementById("captureBtn").addEventListener("click", captureTryon);
+    document.getElementById("saveTrainingBtn").addEventListener("click", saveTrainingPhoto);
+    document.getElementById("landmarkModeBtn").addEventListener("click", () => setAiMode("landmark"));
+    document.getElementById("segmentModeBtn").addEventListener("click", () => setAiMode("segment"));
+    document.getElementById("collectModeBtn").addEventListener("click", () => setAiMode("collect"));
+    document.getElementById("saveSegmentConfigBtn").addEventListener("click", saveSegmentConfig);
+    document.getElementById("liveBtn").addEventListener("click", () => {
+      stage.classList.remove("is-captured");
+      if (video.readyState >= 2 && tryonState.handLandmarker) {
+        startTrackingLoop();
+        setTryonStatus("Tracking live");
+      } else {
+        setTryonStatus(video.readyState >= 2 ? "Live view" : "Sample view");
+      }
+    });
+
+    document.getElementById("customNailColor").addEventListener("input", (event) => {
+      tryonState.color = event.target.value;
+      renderPalette();
+      drawMaskCanvas();
+      renderNailOverlays();
+    });
+
+    document.getElementById("glossBtn").addEventListener("click", () => {
+      tryonState.finish = "gloss";
+      document.getElementById("glossBtn").classList.add("is-active");
+      document.getElementById("matteBtn").classList.remove("is-active");
+      drawMaskCanvas();
+      renderNailOverlays();
+    });
+
+    document.getElementById("matteBtn").addEventListener("click", () => {
+      tryonState.finish = "matte";
+      document.getElementById("matteBtn").classList.add("is-active");
+      document.getElementById("glossBtn").classList.remove("is-active");
+      drawMaskCanvas();
+      renderNailOverlays();
+    });
+
+    document.getElementById("resetFitBtn").addEventListener("click", resetFit);
+    document.getElementById("nailSize").addEventListener("input", (event) => {
+      tryonState.size = Number(event.target.value) / 100;
+      renderNailOverlays();
+    });
+    document.getElementById("nailSpread").addEventListener("input", (event) => {
+      tryonState.spread = Number(event.target.value) / 100;
+      renderNailOverlays();
+    });
+    document.getElementById("nailHeight").addEventListener("input", (event) => {
+      tryonState.yOffset = Number(event.target.value);
+      renderNailOverlays();
+    });
+    document.getElementById("nailOpacity").addEventListener("input", (event) => {
+      tryonState.opacity = Number(event.target.value) / 100;
+      drawMaskCanvas();
+      renderNailOverlays();
+    });
+    window.addEventListener("resize", () => {
+      drawMaskCanvas();
+      renderNailOverlays();
+    });
+    document.getElementById("roboflowModelUrl").value = tryonState.segmentConfig.modelUrl;
+    document.getElementById("roboflowApiKey").value = tryonState.segmentConfig.apiKey;
+    setAiMode("landmark");
+    renderPalette();
+    renderNailOverlays();
+
+    /* -----------------------------------------------
+       FADE-IN KHI CUỘN VÀO MÀN HÌNH
+       Dùng IntersectionObserver để kích hoạt hiệu ứng
+    ----------------------------------------------- */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target); // chỉ chạy 1 lần
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+
+    /* -----------------------------------------------
+       NĂM HIỆN TẠI TRONG FOOTER
+    ----------------------------------------------- */
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
