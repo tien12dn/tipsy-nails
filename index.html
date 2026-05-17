@@ -918,8 +918,8 @@
       color: #fff;
     }
 
-    .segmented--three {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .segmented--four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       width: 100%;
     }
 
@@ -1237,8 +1237,9 @@
             <span>AI mode</span>
             <span class="tryon__status" id="segmentStatus">Landmark</span>
           </div>
-          <div class="segmented segmented--three" aria-label="AI mode">
+          <div class="segmented segmented--four" aria-label="AI mode">
             <button class="is-active" id="landmarkModeBtn" type="button">Landmark</button>
+            <button id="detectModeBtn" type="button">Detect</button>
             <button id="segmentModeBtn" type="button">Segment</button>
             <button id="collectModeBtn" type="button">Collect</button>
           </div>
@@ -1254,7 +1255,7 @@
             <button class="tryon__btn" id="saveSegmentConfigBtn" type="button">Save Segmentation Config</button>
           </div>
           <p class="tryon__note">
-            Segmentation uses a trained nail mask model. Collect mode saves camera frames for labeling.
+            Detect uses a public nail box model. Segment uses your trained mask model.
           </p>
         </div>
 
@@ -1752,6 +1753,7 @@
         modelUrl: localStorage.getItem("nailSegmentModelUrl") || "",
         apiKey: localStorage.getItem("nailSegmentApiKey") || "",
       },
+      detectModelUrl: "https://detect.roboflow.com/nails-from-fingers/4",
       segmentInFlight: false,
       lastSegmentAt: 0,
       segmentMasks: [],
@@ -1802,6 +1804,7 @@
 
     function getVisibleNails(bounds) {
       if (tryonState.aiMode === "segment" && tryonState.segmentMasks.length) return [];
+      if (tryonState.aiMode === "detect" && tryonState.trackedNails?.length) return tryonState.trackedNails;
       if (tryonState.trackedNails?.length) return tryonState.trackedNails;
       if (stage.classList.contains("camera-on") && tryonState.handLandmarker && !stage.classList.contains("is-captured")) {
         return [];
@@ -1948,6 +1951,7 @@
           const results = tryonState.handLandmarker.detectForVideo(video, performance.now());
           updateTrackedHand(results);
           if (tryonState.aiMode === "segment") queueSegmentation();
+          if (tryonState.aiMode === "detect") queueNailDetection();
         }
 
         tryonState.trackingFrame = requestAnimationFrame(trackFrame);
@@ -1967,7 +1971,11 @@
       }
 
       tryonState.trackedNails = buildNailsFromLandmarks(landmarks);
-      setTryonStatus(tryonState.aiMode === "segment" ? "Tracking + mask" : "Tracking live");
+      setTryonStatus(
+        tryonState.aiMode === "segment" ? "Tracking + mask" :
+        tryonState.aiMode === "detect" ? "Detecting nails" :
+        "Tracking live"
+      );
       renderNailOverlays();
     }
 
@@ -2076,12 +2084,18 @@
     function setAiMode(mode) {
       tryonState.aiMode = mode;
       tryonState.segmentMasks = [];
+      tryonState.trackedNails = null;
       clearMaskCanvas();
       document.getElementById("landmarkModeBtn").classList.toggle("is-active", mode === "landmark");
+      document.getElementById("detectModeBtn").classList.toggle("is-active", mode === "detect");
       document.getElementById("segmentModeBtn").classList.toggle("is-active", mode === "segment");
       document.getElementById("collectModeBtn").classList.toggle("is-active", mode === "collect");
       document.getElementById("segmentConfig").hidden = mode !== "segment";
-      segmentStatus.textContent = mode === "segment" ? "Mask model" : mode === "collect" ? "Collect data" : "Landmark";
+      segmentStatus.textContent =
+        mode === "segment" ? "Mask model" :
+        mode === "detect" ? "Nail boxes" :
+        mode === "collect" ? "Collect data" :
+        "Landmark";
       renderNailOverlays();
     }
 
@@ -2105,6 +2119,45 @@
 
       tryonState.lastSegmentAt = now;
       runSegmentation();
+    }
+
+    function queueNailDetection() {
+      const now = performance.now();
+      if (tryonState.aiMode !== "detect") return;
+      if (tryonState.segmentInFlight || now - tryonState.lastSegmentAt < 900) return;
+      if (!tryonState.segmentConfig.apiKey) {
+        segmentStatus.textContent = "Needs API key";
+        return;
+      }
+
+      tryonState.lastSegmentAt = now;
+      runNailDetection();
+    }
+
+    async function runNailDetection() {
+      tryonState.segmentInFlight = true;
+      segmentStatus.textContent = "Detecting...";
+
+      try {
+        const frame = getVideoFrameDataUrl(900);
+        const endpoint = `${tryonState.detectModelUrl}?api_key=${encodeURIComponent(tryonState.segmentConfig.apiKey)}`;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: frame.dataUrl.replace(/^data:image\/jpeg;base64,/, ""),
+        });
+
+        if (!response.ok) throw new Error(`Detection ${response.status}`);
+
+        const result = await response.json();
+        tryonState.trackedNails = parseRoboflowBoxes(result, frame.width, frame.height);
+        renderNailOverlays();
+        segmentStatus.textContent = tryonState.trackedNails.length ? `${tryonState.trackedNails.length} boxes` : "No nails";
+      } catch (error) {
+        segmentStatus.textContent = "Detect failed";
+      } finally {
+        tryonState.segmentInFlight = false;
+      }
     }
 
     async function runSegmentation() {
@@ -2156,6 +2209,42 @@
         .filter((mask) => mask.points.length >= 3)
         .sort((a, b) => b.confidence - a.confidence)
         .slice(0, 5);
+    }
+
+    function parseRoboflowBoxes(result, sourceWidth, sourceHeight) {
+      const bounds = stage.getBoundingClientRect();
+
+      return (result.predictions || [])
+        .filter((prediction) => {
+          const label = String(prediction.class || prediction.class_name || "").toLowerCase();
+          return !label || label.includes("nail");
+        })
+        .map((prediction) => {
+          const center = mapImagePointToStage(
+            { x: Number(prediction.x), y: Number(prediction.y) },
+            sourceWidth,
+            sourceHeight,
+            bounds
+          );
+          const videoAspect = sourceWidth / sourceHeight;
+          const stageAspect = bounds.width / bounds.height;
+          const drawWidth = videoAspect > stageAspect ? bounds.height * videoAspect : bounds.width;
+          const drawHeight = videoAspect > stageAspect ? bounds.height : bounds.width / videoAspect;
+          const width = Number(prediction.width) / sourceWidth * drawWidth;
+          const height = Number(prediction.height) / sourceHeight * drawHeight;
+
+          return {
+            x: center.x,
+            y: center.y,
+            width: clamp(width * .62 * tryonState.size, 12, 48),
+            height: clamp(height * .82 * tryonState.size, 18, 72),
+            rotate: 0,
+            confidence: prediction.confidence || 0,
+          };
+        })
+        .filter((nail) => Number.isFinite(nail.x) && Number.isFinite(nail.y))
+        .sort((a, b) => b.confidence - a.confidence)
+        .slice(0, 10);
     }
 
     function drawMaskCanvas() {
@@ -2337,6 +2426,7 @@
     document.getElementById("captureBtn").addEventListener("click", captureTryon);
     document.getElementById("saveTrainingBtn").addEventListener("click", saveTrainingPhoto);
     document.getElementById("landmarkModeBtn").addEventListener("click", () => setAiMode("landmark"));
+    document.getElementById("detectModeBtn").addEventListener("click", () => setAiMode("detect"));
     document.getElementById("segmentModeBtn").addEventListener("click", () => setAiMode("segment"));
     document.getElementById("collectModeBtn").addEventListener("click", () => setAiMode("collect"));
     document.getElementById("saveSegmentConfigBtn").addEventListener("click", saveSegmentConfig);
